@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Install tpm and its packages (hopefully)
+# nvim install?
+# Install fish, npm, pyright -- maybe...
+
+stow tmux
+stow fish
+stow nvim
