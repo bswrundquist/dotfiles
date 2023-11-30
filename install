@@ -6,5 +6,5 @@ stow tmux
 mv ~/.config/fish ~/.config/fish.backup || echo "fish config not found!!!"
 stow fish
 
-mv ~/.config/nvim ~/.config/nvim/backup || echo "nvim config not found!!!"
+mv ~/.config/nvim ~/.config/nvim.backup || echo "nvim config not found!!!"
 stow nvim
