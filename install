@@ -1,38 +1,19 @@
 #!/usr/bin/env bash
 
-# Install tmux plugin manager
-# https://github.com/tmux-plugins/tpm/blob/master/docs/automatic_tpm_installation.md
+curl -L https://nixos.org/nix/install | sh -s -- --daemon --yes
 
-# tmux
-
-if "test ! -d ~/.tmux/plugins/tpm" \
-   "run 'git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm && ~/.tmux/plugins/tpm/bin/install_plugins'"
-
-mv ~/.tmux.conf ~/.tmux.conf.backup || echo "tmux config not found!!!"
-stow tmux
-
-# fish
-
-if ! command -v &> /dev/null
-then
-  wget https://github.com/fish-shell/fish-shell/releases/download/3.6.1/fish-3.6.1.tar.xz
-  tar xvzf fish-3.6.1.tar.xz
-  cd fish
-  cmake .; make; sudo make install
-  cd ..
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
 
-mv ~/.config/fish ~/.config/fish.backup || echo "fish config not found!!!"
-stow fish
+# Testing whether Nix is available in subsequent commands
+nix --version
 
-# nvim
+command -v home-manager 
 
-if ! command -v nvim &> /dev/null
+if ! command -v home-manager &> /dev/null
 then
-  wget https://github.com/neovim/neovim/releases/download/v0.9.4/nvim.appimage
-  chmod u+x nvim.appimage
-  ./nvim.appimage --appimage-extract || echo "Not extractable..."
-  mv squashfs-root/usr/bin/nvim /usr/bin/local/nvim
+  nix-channel --add https://github.com/nix-community/home-manager/archive/release-24.05.tar.gz home-manager
+  nix-channel --update
+  nix-shell '<home-manager>' -A install
 fi
-mv ~/.config/nvim ~/.config/nvim.backup || echo "nvim config not found!!!"
-stow nvim
