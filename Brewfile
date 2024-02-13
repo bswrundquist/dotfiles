@@ -39,6 +39,7 @@ brew 'most'         # Multi-window scroll pager (better less)
 brew 'procs'        # Advanced process viewer (better ps)
 brew 'ripgrep'      # Searching within files (better grep)
 brew 'rsync'        # Fast incremental file transfer
+brew 'syncthing'    # File syncronization
 brew 'sd'           # RegEx find and replace (better sed)
 brew 'thefuck'      # Auto-correct miss-typed commands
 brew 'tldr'         # Community-maintained docs (better man)
