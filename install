@@ -1,19 +1,12 @@
 #!/usr/bin/env bash
 
-curl -L https://nixos.org/nix/install | sh -s -- --daemon --yes
+sudo mkdir -p ~/workspace
 
-if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
-  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+if ! command -v brew &> /dev/null; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  export PATH=/opt/homebrew/bin:$PATH
 fi
 
-# Testing whether Nix is available in subsequent commands
-nix --version
+brew bundle
 
-command -v home-manager 
-
-if ! command -v home-manager &> /dev/null
-then
-  nix-channel --add https://github.com/nix-community/home-manager/archive/release-24.05.tar.gz home-manager
-  nix-channel --update
-  nix-shell '<home-manager>' -A install
-fi
+# gh config set -h github.com git_protocol ssh
