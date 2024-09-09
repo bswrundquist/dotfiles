@@ -1,0 +1,39 @@
+---
+- name: Ensure Homebrew packages are installed
+  homebrew:
+    state: present
+    name:
+      - asciinema
+      - bat
+      - colima
+      - diff-so-fancy
+      - fish
+      - fzf
+      - gcc
+      - git
+      - jq
+      - lazygit
+      - neovim
+      - node@20
+      - ripgrep
+      - tmux
+      - wezterm
+      - zoxide
+      - zsh
+  tags:
+    - brew
+    - macos
+
+- name: Install Homebrew casks
+  homebrew_cask:
+    state: present
+    name:
+      - font-fira-code
+      - nikitabobko/tap/aerospace
+      - obsidian
+      - quarto
+      - visual-studio-code
+  tags:
+    - brew
+    - cask
+    - macos

@@ -1,0 +1,12 @@
+---
+- name: Configure system and dotfiles
+  hosts: localhost
+  gather_facts: yes
+  tasks:
+    - name: Include macOS tasks
+      include_tasks: tasks/macos.yml
+      when: ansible_facts['os_family'] == 'Darwin'
+      tags:
+        - macos
+        - brew
+        - cask
