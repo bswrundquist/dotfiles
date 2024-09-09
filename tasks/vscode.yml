@@ -1,0 +1,39 @@
+- name: Install VS Code extensions
+  hosts: localhost
+  tasks:
+    - name: Install VS Code extensions
+      become_user: your_username
+      command: code --install-extension "{{ item }}"
+      loop:
+        - antiantisepticeye.vscode-color-picker
+        - asvetliakov.vscode-neovim
+        - ban.spellright
+        - batisteo.vscode-django
+        - bibhasdn.django-html
+        - bigonesystems.django
+        - donjayamanne.python-environment-manager
+        - donjayamanne.python-extension-pack
+        - donjayamanne.githistory
+        - eamodio.gitlens
+        - github.copilot
+        - github.copilot-chat
+        - ms-python.python
+        - ms-toolsai.jupyter
+        - ms-vscode-remote.remote-containers
+        - ms-vscode-remote.remote-ssh
+        - ms-vscode-remote.remote-ssh-edit
+        - ms-vscode-remote.remote-wsl
+        - ms-vscode-remote.vscode-remote-extensionpack
+        - ms-vscode.remote-explorer
+        - ms-vscode.remote-server
+        - quarto.quarto
+        - redhat.vscode-yaml
+        - streetsidesoftware.code-spell-checker
+        - redhat.ansible
+        - visualstudioexptteam.vscodeintellicode
+        - vscode-icons-team.vscode-icons
+        - waderyan.gitblame
+      tags:
+        - vscode
+        - extensions
+        - install

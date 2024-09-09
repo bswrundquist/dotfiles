@@ -21,3 +21,22 @@
         - shell
         - sudo
 
+
+    - name: Include Dotfiles tasks
+      include_tasks: tasks/dotfiles.yml
+      tags:
+        - fish
+        - neovim
+        - tmux
+        - git
+        - config
+        - shell
+        - sudo
+
+    - name: Include VS Code tasks
+      include_tasks: tasks/vscode.yml
+      when: ansible_facts['os_family'] == 'Debian'
+      tags:
+        - vscode
+        - extensions
+        - install
