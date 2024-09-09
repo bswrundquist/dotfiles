@@ -1,0 +1,64 @@
+---
+
+- name: Configure Tmux
+  import_role:
+    name: config_linker
+  vars:
+    source: "{{ ansible_env.PWD }}/.tmux.conf"
+    destination: "{{ ansible_env.HOME }}/.tmux.conf"
+  tags:
+    - tmux
+    - config
+
+- name: Configure Neovim
+  import_role:
+    name: config_linker
+  vars:
+    source: "{{ ansible_env.PWD }}/nvim"
+    destination: "{{ ansible_env.HOME }}/.config/nvim"
+  tags:
+    - neovim
+    - config
+
+- name: Configure Fish
+  import_role:
+    name: config_linker
+  vars:
+    source: "{{ ansible_env.PWD }}/fish"
+    destination: "{{ ansible_env.HOME }}/.config/fish"
+  tags:
+    - fish
+    - config
+
+- name: Configure Git
+  import_role:
+    name: config_linker
+  vars:
+    source: "{{ ansible_env.PWD }}/.gitconfig"
+    destination: "{{ ansible_env.HOME }}/.gitconfig"
+  tags:
+    - git
+    - config
+    
+- name: Add Fish shell to /etc/shells
+  become: yes
+  lineinfile:
+    path: /etc/shells
+    line: /opt/homebrew/bin/fish
+    state: present
+  tags:
+    - fish
+    - shell
+    - config
+    - sudo
+    
+- name: Set Fish as default shell
+  become: yes
+  user:
+    name: "{{ ansible_env.USER }}"
+    shell: /opt/homebrew/bin/fish
+  tags:
+    - fish
+    - shell
+    - config
+    - sudo

@@ -10,3 +10,14 @@
         - macos
         - brew
         - cask
+    - name: Include Dotfiles tasks
+      include_tasks: tasks/dotfiles.yml
+      tags:
+        - fish
+        - neovim
+        - tmux
+        - git
+        - config
+        - shell
+        - sudo
+
