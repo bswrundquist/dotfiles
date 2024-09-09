@@ -6,25 +6,30 @@ PIP := $(VENV)/bin/pip
 
 TAGS := all
 
+REQUIREMENTS := requirements.txt
+
+# Check if all is in TAGS
+ALL_FLAG := $(findstring all, $(TAGS))
 # Check if sudo is in TAGS
 SUDO_REQUIRED := $(findstring sudo, $(TAGS))
-ifeq ($(SUDO_REQUIRED),)
+ifeq ($(SUDO_REQUIRED)$(ALL_FLAG),)
   ASK_PASS_FLAG := 
 else
   ASK_PASS_FLAG := --ask-become-pass
 endif
 
-install: $(VENV_DIR)/bin/activate
+install: $(VENV)/bin/activate
 
-$(VENV_DIR)/bin/activate: $(REQUIREMENTS) | $(VENV_DIR)
-    $(PIP) install --upgrade pip
-    $(PIP) install -r $(REQUIREMENTS)
-    @touch $(VENV_DIR)/bin/activate
+$(VENV)/bin/activate: $(REQUIREMENTS) | $(VENV)
+	$(PIP) install --upgrade pip
+	$(PIP) install -r $(REQUIREMENTS)
+	@touch $(VENV)/bin/activate
 
 # Ensure the venv directory exists
-$(VENV_DIR):
-    $(GLOBAL_PYTHON) -m venv $(VENV_DIR)
+$(VENV):
+	$(GLOBAL_PYTHON) -m venv $(VENV)
 
 dotfiles:
-	$(PYTHON) -m playbook playbook.yml --tags $(TAGS) $(ASK_PASS_FLAG)
+	$(PYTHON) -m ansible playbook playbook.yml --tags $(TAGS) $(ASK_PASS_FLAG)
+
     
