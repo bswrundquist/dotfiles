@@ -5,7 +5,6 @@ PYTHON := $(VENV)/bin/python
 PIP := $(VENV)/bin/pip
 
 TAGS := all
-
 REQUIREMENTS := requirements.txt
 
 # Check if all is in TAGS
@@ -30,6 +29,8 @@ $(VENV):
 	$(GLOBAL_PYTHON) -m venv $(VENV)
 
 dotfiles:
-	$(PYTHON) -m ansible playbook playbook.yml --tags $(TAGS) $(ASK_PASS_FLAG)
+	$(PYTHON) -m ansible playbook playbook.yml \
+		$(ASK_PASS_FLAG) \
+		--tags $(TAGS)
 
     

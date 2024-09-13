@@ -124,3 +124,5 @@ alias rm="rm -I"          # Confirm deletion for large file sets
 alias please="sudo"
 alias fuck="sudo !!"       # Run previous command as sudo
 
+# Aliases for lazygit
+alias lg="lazygit"

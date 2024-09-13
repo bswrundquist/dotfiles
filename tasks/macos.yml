@@ -4,6 +4,7 @@
     state: present
     name:
       - asciinema
+      - awscli
       - bat
       - colima
       - diff-so-fancy

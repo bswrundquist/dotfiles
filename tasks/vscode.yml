@@ -2,7 +2,6 @@
   hosts: localhost
   tasks:
     - name: Install VS Code extensions
-      become_user: your_username
       command: code --install-extension "{{ item }}"
       loop:
         - antiantisepticeye.vscode-color-picker
