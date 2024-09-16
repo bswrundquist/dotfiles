@@ -1,0 +1,40 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600 # Update cache if older than one hour
+
+- name: Upgrade all packages to their latest version
+  apt:
+    upgrade: dist
+  register: upgrade_result
+
+- name: Reboot if necessary after upgrade
+  reboot:
+    msg: "Reboot initiated by Ansible after package upgrade"
+    pre_reboot_delay: 5
+    post_reboot_delay: 30
+    test_command: whoami
+  when: upgrade_result.changed
+
+- name: Install common utilities
+  apt:
+    name:
+      - build-essential
+      - curl
+      - git
+      - htop
+      - vim
+      - wget
+      - unzip
+      - net-tools
+      - software-properties-common
+    state: present
+
+- name: Install Python 3 and related packages
+  apt:
+    name:
+      - python3
+      - python3-pip
+      - python3-venv
+    state: present
