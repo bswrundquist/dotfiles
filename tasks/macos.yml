@@ -13,6 +13,7 @@
       - gcc
       - git
       - jq
+      - kubectl
       - lazygit
       - neovim
       - node@20
