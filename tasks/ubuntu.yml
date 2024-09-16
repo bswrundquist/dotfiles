@@ -38,3 +38,25 @@
       - python3-pip
       - python3-venv
     state: present
+
+- name: Get the latest stable kubectl version
+  uri:
+    url: https://dl.k8s.io/release/stable.txt
+    return_content: yes
+  register: kubectl_version
+
+- name: Get the checksum for the kubectl binary
+  uri:
+    url: "https://dl.k8s.io/{{ kubectl_version.content }}/bin/linux/amd64/kubectl.sha256"
+    return_content: yes
+  register: kubectl_checksum
+
+- name: Download the kubectl binary with checksum verification
+  get_url:
+    url: "https://dl.k8s.io/{{ kubectl_version.content }}/bin/linux/amd64/kubectl"
+    dest: /usr/local/bin/kubectl
+    checksum: "sha256:{{ kubectl_checksum.content }}"
+    mode: "0755"
+    owner: root
+    group: root
+
