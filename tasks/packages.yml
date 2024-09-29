@@ -1,0 +1,80 @@
+---
+- name: Update apt cache
+  become: true
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600 # Update cache if older than one hour
+  tags:
+    - sudo
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Install common utilities
+  become: true
+  apt:
+    name:
+      - bat
+      - build-essential
+      - curl
+      - fzf
+      - git
+      - htop
+      - jq
+      - net-tools
+      - ripgrep
+      - software-properties-common
+      - unzip
+      - vim
+      - wget
+    state: present
+  tags:
+    - apt
+    - ubuntu
+    - sudo
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Remove unnecessary packages and clean cache
+  become: true
+  apt:
+    autoremove: yes
+    autoclean: yes
+  tags:
+    - sudo
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Ensure Homebrew packages are installed
+  homebrew:
+    state: present
+    name:
+      - asciinema
+      - bat
+      - colima
+      - coreutils
+      - curl
+      - diff-so-fancy
+      - fzf
+      - gcc
+      - jq
+      - node@20
+      - ripgrep
+      - vim
+      - wezterm
+      - wget
+  tags:
+    - brew
+    - macos
+  when: ansible_facts['os_family'] == 'Darwin'
+
+- name: Install Homebrew casks
+  homebrew_cask:
+    state: present
+    name:
+      - font-fira-code
+      - nikitabobko/tap/aerospace
+      - obsidian
+      - quarto
+      - visual-studio-code
+  tags:
+    - brew
+    - cask
+    - macos
+  when: ansible_facts['os_family'] == 'Darwin'
