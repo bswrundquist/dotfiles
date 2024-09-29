@@ -3,15 +3,10 @@
   hosts: localhost
   gather_facts: yes
   tasks:
-    - name: Include macOS tasks
-      include_tasks: tasks/macos.yml
-      when: ansible_facts['os_family'] == 'Darwin'
+    - name: Configure AWS
+      include_tasks: tasks/aws.yml
       tags:
-        - macos
-        - brew
-        - cask
-    - name: Include Dotfiles tasks
-      include_tasks: tasks/dotfiles.yml
+        - aws
 
     - name: Configure Fish shell
       include_tasks: tasks/fish.yml
