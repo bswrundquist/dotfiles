@@ -19,14 +19,15 @@
     path: "{{ destination }}"
     state: absent
   # when: not dest_check.stat.exists and dest_check.stat.islnk
-  when: dest_check.stat.exists and not (dest_check.stat.islnk | default(false))
+  when: dest_check.stat.exists and dest_check.stat.islnk | default(false)
 
 - name: Backup existing file or directory if present and not a symlink
-  copy:
-    src: "{{ destination }}"
-    dest: "{{ destination }}.bak"
-    remote_src: yes
-  when: dest_check.stat.exists and not dest_check.stat.islnk
+  command: cp -a "{{ destination }}" "{{ destination }}.bak"
+  #copy:
+  #  src: "{{ destination }}"
+  #  dest: "{{ destination }}.bak"
+  #  remote_src: yes
+  when: dest_check.stat.exists and not dest_check.stat.islnk | default(false)
 
 - name: Remove original file or directory after backup
   file:
