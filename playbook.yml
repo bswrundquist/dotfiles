@@ -68,13 +68,10 @@
       tags:
         - tmux
 
-    - name: Include VS Code tasks
+    - name: Install and configure Visual Studio Code
       include_tasks: tasks/vscode.yml
-      when: ansible_facts['os_family'] == 'Debian'
       tags:
         - vscode
-        - extensions
-        - install
 
     - name: Install and configure Zoxide
       include_tasks: tasks/zoxide.yml

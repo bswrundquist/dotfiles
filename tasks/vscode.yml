@@ -1,5 +1,24 @@
+---
+- name: Install Visual Studio Code on Ubuntu
+  become: true
+  apt:
+    deb: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
+  when: ansible_facts['os_family'] == 'Debian'
+  tags:
+    - vscode
+    - install
+    - ubuntu
+
+- name: Install Visual Studio Code on macOS
+  homebrew_cask:
+    name: visual-studio-code
+    state: present
+  when: ansible_facts['os_family'] == 'Darwin'
+  tags:
+    - vscode
+    - install
+    - macos
 - name: Install VS Code extensions
-  hosts: localhost
   tasks:
     - name: Install VS Code extensions
       command: code --install-extension "{{ item }}"
