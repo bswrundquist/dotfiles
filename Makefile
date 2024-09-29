@@ -5,17 +5,12 @@ PYTHON := $(VENV)/bin/python
 PIP := $(VENV)/bin/pip
 
 TAGS := all
+SKIP_TAGS := ""
+
+VERBOSITY := -vvv
 REQUIREMENTS := requirements.txt
 
-# Check if all is in TAGS
-ALL_FLAG := $(findstring all, $(TAGS))
-# Check if sudo is in TAGS
-SUDO_REQUIRED := $(findstring sudo, $(TAGS))
-ifeq ($(SUDO_REQUIRED)$(ALL_FLAG),)
-  ASK_PASS_FLAG := 
-else
-  ASK_PASS_FLAG := --ask-become-pass
-endif
+ASK_PASS_FLAG := --ask-become-pass
 
 install: $(VENV)/bin/activate
 
@@ -28,9 +23,11 @@ $(VENV)/bin/activate: $(REQUIREMENTS) | $(VENV)
 $(VENV):
 	$(GLOBAL_PYTHON) -m venv $(VENV)
 
-dotfiles:
+dotfiles: install
 	$(PYTHON) -m ansible playbook playbook.yml \
 		$(ASK_PASS_FLAG) \
-		--tags $(TAGS)
+		--tags $(TAGS) \
+		--skip-tags $(SKIP_TAGS) \
+		$(VERBOSITY)
 
     
