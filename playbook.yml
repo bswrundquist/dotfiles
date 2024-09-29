@@ -12,10 +12,12 @@
         - cask
     - name: Include Dotfiles tasks
       include_tasks: tasks/dotfiles.yml
+
+    - name: Configure Fish shell
+      include_tasks: tasks/fish.yml
       tags:
         - fish
-        - neovim
-        - tmux
+
         - git
         - config
         - shell
