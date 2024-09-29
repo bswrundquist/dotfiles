@@ -18,10 +18,10 @@
       tags:
         - fish
 
+    - name: Configure Git
+      include_tasks: tasks/git.yml
+      tags:
         - git
-        - config
-        - shell
-        - sudo
 
     - name: Include Ubuntu tasks
       include_tasks: tasks/ubuntu.yml

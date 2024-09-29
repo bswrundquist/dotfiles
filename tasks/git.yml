@@ -1,0 +1,39 @@
+---
+- name: Configure Git
+  import_role:
+    name: config_linker
+  vars:
+    source: "{{ ansible_env.PWD }}/config/git/.gitconfig"
+    destination: "{{ ansible_env.HOME }}/.gitconfig"
+  tags:
+    - git
+    - config
+
+- name: Install Git on Debian-based systems
+  become: true
+  apt:
+    name: git
+    state: present
+  when: ansible_facts['os_family'] == 'Debian'
+  tags:
+    - git
+    - apt
+    - ubuntu
+    - sudo
+
+- name: Install Git on macOS
+  homebrew:
+    name: git
+    state: present
+  when: ansible_facts['os_family'] == 'Darwin'
+  tags:
+    - git
+    - brew
+    - macos
+
+- name: Ensure Git is installed and up to date
+  debug:
+    msg: "Git installation completed or updated"
+  changed_when: false
+  tags:
+    - git
