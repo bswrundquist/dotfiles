@@ -30,14 +30,11 @@
 
     - name: Include Dotfiles tasks
       include_tasks: tasks/dotfiles.yml
+
+    - name: Configure Tmux
+      include_tasks: tasks/tmux.yml
       tags:
-        - fish
-        - neovim
         - tmux
-        - git
-        - config
-        - shell
-        - sudo
 
     - name: Include VS Code tasks
       include_tasks: tasks/vscode.yml
