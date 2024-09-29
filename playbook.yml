@@ -8,6 +8,11 @@
       tags:
         - aws
 
+    - name: Configure Azure
+      include_tasks: tasks/azure.yml
+      tags:
+        - azure
+
     - name: Configure Fish shell
       include_tasks: tasks/fish.yml
       tags:
