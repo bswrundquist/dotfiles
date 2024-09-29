@@ -33,9 +33,10 @@
       tags:
         - git
 
-    - name: Include Ubuntu tasks
-      include_tasks: tasks/ubuntu.yml
-      when: ansible_facts['os_family'] == 'Debian'
+    - name: Configure Kubernetes
+      include_tasks: tasks/kubernetes.yml
+      tags:
+        - kubernetes
       tags:
         - nvim
 
