@@ -23,6 +23,11 @@
       tags:
         - fish
 
+    - name: Configure GCP
+      include_tasks: tasks/gcp.yml
+      tags:
+        - gcp
+
     - name: Configure Git
       include_tasks: tasks/git.yml
       tags:
@@ -36,6 +41,11 @@
 
     - name: Include Dotfiles tasks
       include_tasks: tasks/dotfiles.yml
+    - name: Install and configure Pants
+      include_tasks: tasks/pants.yml
+      tags:
+        - pants
+
 
 
     - name: Configure Tmux

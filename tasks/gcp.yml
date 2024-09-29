@@ -1,0 +1,59 @@
+- name: Install Google Cloud SDK on Debian-based systems
+  become: true
+  block:
+    - name: Add Google Cloud SDK apt key
+      apt_key:
+        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        state: present
+
+    - name: Add Google Cloud SDK repository
+      apt_repository:
+        repo: "deb https://packages.cloud.google.com/apt cloud-sdk main"
+        state: present
+        filename: google-cloud-sdk
+
+    - name: Install Google Cloud SDK
+      apt:
+        name: google-cloud-sdk
+        state: present
+        update_cache: yes
+  when: ansible_facts['os_family'] == 'Debian'
+  tags:
+    - gcp
+    - install
+    - debian
+
+- name: Install Google Cloud SDK on macOS
+  homebrew_cask:
+    name: google-cloud-sdk
+    state: present
+  when: ansible_facts['os_family'] == 'Darwin'
+  tags:
+    - gcp
+    - install
+    - macos
+
+# - name: Initialize gcloud configuration
+#   command: gcloud init
+#   register: gcloud_init_result
+#   changed_when: false
+#   failed_when: false
+#   tags:
+#     - gcp
+#     - config
+
+# - name: Display gcloud initialization result
+#   debug:
+#     msg: "{{ gcloud_init_result.stdout_lines }}"
+#   when: gcloud_init_result.rc == 0
+#   tags:
+#     - gcp
+#     - config
+
+# - name: Warn if gcloud initialization failed
+#   debug:
+#     msg: "gcloud initialization failed. Please run 'gcloud init' manually to configure."
+#   when: gcloud_init_result.rc != 0
+#   tags:
+#     - gcp
+#     - config
