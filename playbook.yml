@@ -75,3 +75,8 @@
         - vscode
         - extensions
         - install
+
+    - name: Install and configure Zoxide
+      include_tasks: tasks/zoxide.yml
+      tags:
+        - zoxide
