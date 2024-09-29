@@ -58,6 +58,10 @@
       tags:
         - python
 
+    - name: Configure SSH
+      include_tasks: tasks/ssh.yml
+      tags:
+        - ssh
 
     - name: Configure Tmux
       include_tasks: tasks/tmux.yml

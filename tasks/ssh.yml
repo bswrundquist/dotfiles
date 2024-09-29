@@ -1,0 +1,48 @@
+---
+
+- name: Comment out PasswordAuthentication yes
+  become: true
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^(\s*)PasswordAuthentication\s+yes'
+    line: '#\1PasswordAuthentication yes'
+    backrefs: yes
+  notify: Restart SSH
+  tags: ssh
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Ensure PasswordAuthentication is set to no
+  become: true
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PasswordAuthentication\s+'
+    line: "PasswordAuthentication no"
+    backrefs: yes
+  tags: ssh
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Remove Include /etc/ssh/sshd_config.d/*.conf from sshd_config
+  become: true
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    state: absent
+    line: "Include /etc/ssh/sshd_config.d/*.conf"
+  notify: restart-ssh-ubuntu
+  tags:
+    - ssh
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Ensure SSH is installed (for remote Ubuntu machines)
+  become: true
+  apt:
+    name: openssh-server
+    state: present
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Ensure SSH service is enabled and running (for remote Ubuntu machines)
+  become: true
+  service:
+    name: ssh
+    state: started
+    enabled: yes
+  when: ansible_distribution == 'Ubuntu'
