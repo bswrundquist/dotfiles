@@ -53,6 +53,10 @@
       tags:
         - pants
 
+    - name: Configure Python
+      include_tasks: tasks/python.yml
+      tags:
+        - python
 
 
     - name: Configure Tmux
