@@ -13,6 +13,11 @@
       tags:
         - azure
 
+    - name: Install and configure Bazel
+      include_tasks: tasks/bazel.yml
+      tags:
+        - bazel
+
     - name: Configure Fish shell
       include_tasks: tasks/fish.yml
       tags:
