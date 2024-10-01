@@ -3,6 +3,11 @@
   hosts: localhost
   gather_facts: yes
   tasks:
+    - name: Install packages
+      include_tasks: tasks/packages.yml
+      tags:
+        - packages
+
     - name: Configure AWS
       include_tasks: tasks/aws.yml
       tags:
@@ -42,11 +47,6 @@
       include_tasks: tasks/nvim.yml
       tags:
         - nvim
-
-    - name: Install packages
-      include_tasks: tasks/packages.yml
-      tags:
-        - packages
 
     - name: Install and configure Pants
       include_tasks: tasks/pants.yml
