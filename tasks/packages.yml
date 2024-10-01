@@ -17,10 +17,12 @@
       - curl
       - fzf
       - git
+      - gnupg2
       - htop
       - jq
       - net-tools
       - ripgrep
+      - openssh-server
       - software-properties-common
       - unzip
       - vim
