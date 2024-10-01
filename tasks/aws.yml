@@ -35,6 +35,7 @@
     msg: "AWS CLI version installed: {{ awscli_version_output.stdout }}"
 
 - name: Clean up temporary files
+  become: true
   file:
     path: "{{ item }}"
     state: absent
