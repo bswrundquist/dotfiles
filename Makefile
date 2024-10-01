@@ -12,15 +12,17 @@ REQUIREMENTS := requirements.txt
 
 ASK_PASS_FLAG := --ask-become-pass
 
-install: $(VENV)/bin/activate
+.PHONY: $(VENV)
 
-$(VENV)/bin/activate: $(REQUIREMENTS) | $(VENV)
+install: $(VENV)
+
+$(VENV): $(REQUIREMENTS) | $(VENV)/bin/activate
 	$(PIP) install --upgrade pip
 	$(PIP) install -r $(REQUIREMENTS)
 	@touch $(VENV)/bin/activate
 
 # Ensure the venv directory exists
-$(VENV):
+$(VENV)/bin/activate:
 	$(GLOBAL_PYTHON) -m venv $(VENV)
 
 dotfiles: install
@@ -31,3 +33,5 @@ dotfiles: install
 		$(VERBOSITY)
 
     
+init-ubuntu:
+	sudo apt install -y git make vim python3 python3-venv python3-pip
