@@ -28,7 +28,6 @@
   command: "aws --version"
   register: awscli_version_output
   changed_when: false
-  when: ansible_facts['os_family'] == 'Debian'
 
 - name: Display installed AWS CLI version
   debug:
