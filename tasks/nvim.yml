@@ -3,7 +3,7 @@
   import_role:
     name: config_linker
   vars:
-    source: "{{ ansible_env.PWD }}/nvim"
+    source: "{{ ansible_env.PWD }}/config/nvim"
     destination: "{{ ansible_env.HOME }}/.config/nvim"
   tags:
     - neovim
