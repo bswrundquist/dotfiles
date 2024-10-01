@@ -69,3 +69,15 @@
     - brew
     - macos
   when: ansible_facts['os_family'] == 'Darwin'
+
+- name: Install Fish shell on Ubuntu
+  become: true
+  apt:
+    name: fish
+    state: present
+  tags:
+    - fish
+    - shell
+    - apt
+    - ubuntu
+  when: ansible_facts['os_family'] == 'Debian'
