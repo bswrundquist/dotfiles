@@ -31,7 +31,7 @@
     onActivation = {
       autoUpdate = false;
       # 'zap': uninstalls all formulae(and related files) not listed here.
-      # cleanup = "zap";
+      cleanup = "zap";
     };
 
     taps = [
@@ -41,22 +41,42 @@
     # `brew install`
     # TODO Feel free to add your favorite apps here.
     brews = [
-	"neovim"
-	"zoxide"
-	"tfenv"
+      "ffmpeg"
+	    "neovim"
+	    "zoxide"
+	    "tfenv"
+	    "telnet"
+      "nvm"
+      "lazygit"
+      "poppler"
+	    "asciidoctor"
     ];
 
     # `brew install --cask`
     # TODO Feel free to add your favorite apps here.
     casks = [
-	"kitty"
-	"font-fira-code"
-	"google-cloud-sdk"
-	"nikitabobko/tap/aerospace"
-	"pantsbuild/tap/pants"
-	"raycast"
-	"firefox"
+	    "kitty"
+	    "font-fira-code"
+	    "google-cloud-sdk"
+	    "nikitabobko/tap/aerospace"
+	    "pantsbuild/tap/pants"
+	    "raycast"
+	    "keepingyouawake"
+	    "firefox"
+	    "obsidian"
+	    "1password"
+	    "1password-cli"
+	    "tailscale"
+	    "signal"
+	    "slack"
+	    "utm"
+	    "discord"
+	    "cursor"
+	    "langgraph-studio"
       # "google-chrome"
     ];
+    masApps = {
+
+    };
   };
 }
