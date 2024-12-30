@@ -29,9 +29,10 @@
     enable = true;
 
     onActivation = {
-      autoUpdate = false;
+      autoUpdate = true;
       # 'zap': uninstalls all formulae(and related files) not listed here.
-      cleanup = "zap";
+      cleanup = "uninstall";
+      upgrade = true;
     };
 
     taps = [
@@ -56,6 +57,8 @@
     # TODO Feel free to add your favorite apps here.
     casks = [
 	    "kitty"
+	    "gimp"
+	    "ghostty"
 	    "font-fira-code"
 	    "google-cloud-sdk"
 	    "nikitabobko/tap/aerospace"
