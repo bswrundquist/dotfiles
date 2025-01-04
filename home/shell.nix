@@ -4,7 +4,7 @@
     cddl = "cd ~/Downloads";
     cddo = "cd ~/Documents";
 
-    todos = 'rg "TODO|FIXME|HACK"';
+    todos = "rg \"TODO|FIXME|HACK\"";
 
     k = "kubectl";
     d = "docker";
@@ -40,10 +40,11 @@
     ta = "tmux attach -t";
     tk = "tmux kill-session -t";
 
-    .. = "cd ..";
-    ... = "cd ../..";
-    .... = "cd ../../..";
-    ..... = "cd ../../../..";
+    ".." = "cd ..";
+    "..." = "cd ../..";
+    "...." = "cd ../../..";
+    "....." = "cd ../../../..";
+    "-" = "cd -";
 
     urldecode = "python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.stdin.read()))'";
     urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
