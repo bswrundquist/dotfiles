@@ -12,6 +12,7 @@
     ./tmux.nix
     # ./nixvim.nix
     ./neovim.nix
+    ./zsh.nix
   ];
 
   home = {
