@@ -1,5 +1,6 @@
 { ... }: {
   home.file.aerospace = {
+    enable = false;
     target = ".aerospace.toml";
     text = ''
       enable-normalization-flatten-containers = false

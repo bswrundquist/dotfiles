@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./aerospace.nix
     ./core.nix
     ./fish.nix
     ./git.nix
