@@ -2,16 +2,15 @@
 
 {
   imports = [
-    ./shell.nix
     ./core.nix
     ./fish.nix
     ./git.nix
     ./home.nix
-    ./starship.nix
     ./kitty.nix
-    ./tmux.nix
-    # ./nixvim.nix
     ./neovim.nix
+    ./shell.nix
+    ./starship.nix
+    ./tmux.nix
     ./zsh.nix
   ];
 
