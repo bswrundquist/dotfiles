@@ -51,6 +51,7 @@
       "lazygit"
       "poppler"
 	    "asciidoctor"
+	    "node"
     ];
 
     # `brew install --cask`
