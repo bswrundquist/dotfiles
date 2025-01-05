@@ -1,6 +1,11 @@
 {pkgs, config, ... }: {
   home.shellAliases = {
-    cdw = "cd ~/workspace";
+    cds = "cd ~/smithy";
+    cdf = "cd ~/smithy/forge";
+    cdd = "cd ~/smithy/dotfiles";
+    cdh = "cd ~/smithy/homepage";
+    cdn = "cd ~/smithy/notebooks";
+    cdtr = "cd ~/smithy/template_repository";
     cddl = "cd ~/Downloads";
     cddo = "cd ~/Documents";
 
