@@ -57,6 +57,7 @@
     # `brew install --cask`
     # TODO Feel free to add your favorite apps here.
     casks = [
+      "quarto"
 	    "kitty"
 	    "gimp"
 	    "ghostty"
@@ -71,12 +72,10 @@
 	    "1password"
 	    "1password-cli"
 	    "tailscale"
-	    "signal"
 	    "slack"
 	    "utm"
 	    "discord"
 	    "cursor"
-	    "langgraph-studio"
       # "google-chrome"
     ];
     masApps = {
