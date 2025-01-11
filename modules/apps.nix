@@ -52,6 +52,9 @@
       "poppler"
 	    "asciidoctor"
 	    "node"
+	    "lima"
+	    "qemu"
+	    "cloud-utils"
     ];
 
     # `brew install --cask`
