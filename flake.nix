@@ -55,45 +55,75 @@
     nixvim,
     ...
   }: let
-    # TODO replace with your own username, system and hostname
+    # Common user information
     username = "bswr";
     useremail = "bswrundquist@gmail.com";
-    system = "aarch64-darwin"; # aarch64-darwin or x86_64-darwin
-    hostname = "centcom";
-      # nixvim' = nixvim.legacyPackages.${system};
-      # nvim = nixvim'.makeNixvimWithModule {
-      #   pkgs = inputs.unstable.legacyPackages.${system};
-      #   module = import ./home/nixvim.nix;
-      # };
-
-    specialArgs =
-      inputs
-      // {
-        inherit username useremail hostname;
+    
+    # Define all your hosts here
+    hosts = {
+      # Current host
+      centcom = {
+        system = "aarch64-darwin"; # aarch64-darwin or x86_64-darwin
+        # Additional host-specific settings could go here if needed
       };
-  in {
-    darwinConfigurations."${hostname}" = darwin.lib.darwinSystem {
-      inherit system specialArgs;
-      modules = [
-        ./modules/nix-core.nix
-        ./modules/system.nix
-        ./modules/apps.nix
+      
+      # Add more hosts as needed, for example:
+      laptop = {
+        system = "aarch64-darwin";
+        # You can override any settings per host
+      };
+      
+      workstation = {
+        system = "x86_64-darwin";
+        # Different architecture for this host
+      };
+    };
 
-        ./modules/host-users.nix
-        # home manager
-        home-manager.darwinModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = specialArgs;
-          home-manager.users.${username} = import ./home;
+    # Function to create a darwin configuration for a specific host
+    mkDarwinConfig = hostname: hostConfig: let
+      system = hostConfig.system;
+      
+      specialArgs =
+        inputs
+        // {
+          inherit username useremail hostname;
+          # You can add additional host-specific variables here
+        };
+    in
+      darwin.lib.darwinSystem {
+        inherit system specialArgs;
+        modules = [
+          ./modules/nix-core.nix
+          ./modules/system.nix
+          ./modules/apps.nix
+          ./modules/host-users.nix
+          
+          # home manager
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = specialArgs;
+            home-manager.users.${username} = import ./home;
             #home-manager.sharedModules = [
             #  nixvim.homeManagerModules.nixvim
             #];
-        }
-      ];
-    };
+          }
+        ];
+      };
+
+    # Generate all darwin configurations
+    darwinConfigurations = builtins.mapAttrs mkDarwinConfig hosts;
+  in {
+    # Expose the generated configurations
+    inherit darwinConfigurations;
+    
     # nix code formatter
-    formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
+    formatter = builtins.mapAttrs (system: _: nixpkgs.legacyPackages.${system}.alejandra) (
+      builtins.listToAttrs (
+        map (system: { name = system; value = null; }) 
+        (builtins.attrValues (builtins.mapAttrs (_: cfg: cfg.system) hosts))
+      )
+    );
   };
 }
