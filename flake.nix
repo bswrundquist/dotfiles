@@ -80,7 +80,7 @@
       };
       
       workstation = {
-        system = "x86_64-darwin";
+        system = "aarch64-darwin";
         username = "work-bswr";
         email = "bswr@work-email.com";
         # Different architecture for this host
