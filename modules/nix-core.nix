@@ -1,7 +1,9 @@
-
 { pkgs, ... }:
 
 {
+  # Enable nix features and daemon
+  nix.enable = true;
+  
   nix.settings = {
     # enable flakes globally
     experimental-features = ["nix-command" "flakes"];
@@ -17,7 +19,10 @@
     builders-use-substitutes = true;
   };
 
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
   # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
+  # services.nix-daemon.enable = true; # This option is deprecated
   nix.package = pkgs.nix;
 }
