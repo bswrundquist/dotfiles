@@ -55,26 +55,34 @@
     nixvim,
     ...
   }: let
-    # Common user information
-    username = "bswr";
-    useremail = "bswrundquist@gmail.com";
+    # Default user information - will be used if not specified at host level
+    defaultUser = {
+      username = "bswr";
+      email = "bswrundquist@gmail.com";
+    };
     
     # Define all your hosts here
     hosts = {
       # Current host
       centcom = {
         system = "aarch64-darwin"; # aarch64-darwin or x86_64-darwin
+        username = defaultUser.username;
+        email = defaultUser.email;
         # Additional host-specific settings could go here if needed
       };
       
       # Add more hosts as needed, for example:
-      laptop = {
+      scout = {
         system = "aarch64-darwin";
+        username = defaultUser.username;
+        email = defaultUser.email;
         # You can override any settings per host
       };
       
       workstation = {
         system = "x86_64-darwin";
+        username = "work-bswr";
+        email = "bswr@work-email.com";
         # Different architecture for this host
       };
     };
@@ -82,6 +90,8 @@
     # Function to create a darwin configuration for a specific host
     mkDarwinConfig = hostname: hostConfig: let
       system = hostConfig.system;
+      username = hostConfig.username;
+      useremail = hostConfig.email;
       
       specialArgs =
         inputs
@@ -115,8 +125,8 @@
     # Generate all darwin configurations
     darwinConfigurations = builtins.mapAttrs mkDarwinConfig hosts;
   in {
-    # Expose the generated configurations
-    inherit darwinConfigurations;
+    # Expose the generated configurations and hosts
+    inherit darwinConfigurations hosts;
     
     # nix code formatter
     formatter = builtins.mapAttrs (system: _: nixpkgs.legacyPackages.${system}.alejandra) (
