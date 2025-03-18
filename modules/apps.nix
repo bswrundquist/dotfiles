@@ -54,14 +54,19 @@
 	    "node"
 	    "lima"
 	    "qemu"
-	    "cloud-utils"
+	    "hashicorp/tap/packer"
+	    "ansible"
+	    "docker-credential-helper"
+	    "fd"
+	    "tfenv"
     ];
 
     # `brew install --cask`
-    # TODO Feel free to add your favorite apps here.
     casks = [
+      "docker"
       "quarto"
 	    "kitty"
+	    "pgadmin4"
 	    "gimp"
 	    "ghostty"
 	    "font-fira-code"
@@ -79,6 +84,7 @@
 	    "utm"
 	    "discord"
 	    "cursor"
+      "qutebrowser"
       # "google-chrome"
     ];
     masApps = {
