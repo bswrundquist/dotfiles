@@ -1,51 +1,63 @@
-{...}:
+{pkgs, lib, config, ...}:
 
 {
-  programs.qutebrowser = {
-    enable = true;
+  # We don't need to enable the Home Manager qutebrowser module
+  # since we're installing it via Homebrew cask
+  programs.qutebrowser.enable = false;
+  
+  # Create a minimal configuration file for qutebrowser
+  # home.file.".config/qutebrowser/config.py".text = ''
+  home.file.".qutebrowser/config.py".text = ''
+    # Basic configuration for qutebrowser
     
-    # Basic settings
-    settings = {
-      # Set the start page
-      url.start_pages = ["https://start.duckduckgo.com"];
-      url.default_page = "https://start.duckduckgo.com";
-      
-      # Search engines
-      url.searchengines = {
-        "DEFAULT" = "https://duckduckgo.com/?q={}";
-        "g" = "https://google.com/search?q={}";
-        "gh" = "https://github.com/search?q={}";
-        "yt" = "https://youtube.com/results?search_query={}";
-        "nix" = "https://search.nixos.org/packages?query={}";
-      };
-      
-      # Privacy settings
-      content.cookies.accept = "no-3rdparty";
-      content.javascript.can_access_clipboard = true;
-      content.notifications.enabled = false;
-      
-      # UI settings
-      colors.webpage.preferred_color_scheme = "dark";
-      tabs.position = "top";
-      tabs.show = "always";
-      scrolling.smooth = true;
-    };
+    # Set the start page
+    c.url.start_pages = ["https://start.duckduckgo.com"]
+    c.url.default_page = "https://start.duckduckgo.com"
     
-    # Key mappings
-    keyBindings = {
-      normal = {
-        "<Ctrl-r>" = "reload";
-        "<Ctrl-p>" = "tab-prev";
-        "<Ctrl-n>" = "tab-next";
-        "<Ctrl-t>" = "open -t";
-      };
-    };
+    # Search engines - explicitly set with proper format
+    c.url.searchengines = {
+        "DEFAULT": "https://duckduckgo.com/?q={}",
+        "g": "https://google.com/search?q={}",
+        "gh": "https://github.com/search?q={}",
+        "yt": "https://youtube.com/results?search_query={}",
+        "nix": "https://search.nixos.org/packages?query={}"
+    }
     
-    # Extra config
-    extraConfig = ''
-      # Additional custom configuration can be added here
-      c.zoom.default = "100%"
-      c.downloads.location.directory = "~/Downloads"
-    '';
-  };
+    # Add a debug message to verify config is loaded
+    config.bind("<F1>", "message-info 'Config loaded with search engines: {}'".format(str(c.url.searchengines)))
+    config.bind("pe", "open -t https://perplexity.ai")
+    config.bind("gpt", "open -t https://chatgpt.com")
+    config.bind("cl", "open -t https://claude.ai")
+    config.bind("em", "open -t https://gmail.com")
+    config.bind("yc", "open -t https://news.ycombinator.com")
+    
+    # Privacy settings
+    c.content.cookies.accept = "no-3rdparty"
+    #c.content.javascript.can_access_clipboard = True
+    #c.content.notifications.enabled = False
+    #c.backend = "webengine"
+    #c.content.javascript.enabled = True
+    
+    # UI settings
+    c.colors.webpage.preferred_color_scheme = "dark"
+    c.tabs.position = "top"
+    c.tabs.show = "always"
+    c.scrolling.smooth = True
+    
+    # Key bindings
+    config.bind("<Ctrl-r>", "reload")
+    config.bind("<Ctrl-p>", "tab-prev")
+    config.bind("<Ctrl-n>", "tab-next")
+    config.bind("<Ctrl-t>", "open -t")
+    
+    # Additional settings
+    c.zoom.default = "100%"
+    c.downloads.location.directory = "~/Downloads"
+    
+    # Add explicit commands for search shortcuts
+    config.bind("sg", "set-cmd-text -s :open g")
+    config.bind("sgh", "set-cmd-text -s :open gh")
+    config.bind("syt", "set-cmd-text -s :open yt")
+    config.bind("snix", "set-cmd-text -s :open nix")
+  '';
 } 
