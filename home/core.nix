@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    docker
+    docker_27
 
     coreutils
     colima
@@ -44,12 +44,12 @@
     #  vimAlias = true;
     #};
 
-    # A modern replacement for ‘ls’
+    # A modern replacement for 'ls'
     # useful in bash/zsh prompt, not in nushell.
     eza = {
       enable = true;
       git = true;
-      icons = true;
+      icons = "auto";
       enableZshIntegration = true;
     };
 

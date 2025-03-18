@@ -9,6 +9,8 @@
     ./home.nix
     ./kitty.nix
     ./neovim.nix
+    ./python312.nix
+    ./qutebrowser.nix
     ./shell.nix
     ./starship.nix
     ./tmux.nix
