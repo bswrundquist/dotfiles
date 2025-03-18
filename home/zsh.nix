@@ -13,9 +13,9 @@
     historySubstringSearch.enable = true;
     initExtra = ''
       export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin"
-      eval "$(/opt/homebrew/bin/brew shellenv)"
-        export NVM_DIR="$HOME/.nvm" 
-        . "/usr/local/opt/nvm/nvm.sh"
+      # eval "$(/opt/homebrew/bin/brew shellenv)"
+      #   export NVM_DIR="$HOME/.nvm" 
+      #   . "/usr/local/opt/nvm/nvm.sh"
     '';
   plugins = [
     {
