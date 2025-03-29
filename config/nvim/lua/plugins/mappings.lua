@@ -18,6 +18,23 @@ return {
             desc = "Pick to close",
           },
           ["<Leader>z"] = { "<cmd>:ZenMode<cr>" },
+          -- Capital H and L to navigate to beginning/end of line
+          ["H"] = { "^", desc = "Go to beginning of line" },
+          ["L"] = { "$", desc = "Go to end of line" },
+          -- quickfix list navigation with Ctrl+Shift+j/k/l
+          ["<C-S-j>"] = { "<cmd>try | cnext | catch | cfirst | catch | endtry<cr>", desc = "Next quickfix item" },
+          ["<C-S-k>"] = { "<cmd>try | cprev | catch | clast | catch | endtry<cr>", desc = "Previous quickfix item" },
+          ["<C-S-l>"] = { "<cmd>copen<cr>", desc = "Open quickfix list" },
+          ["<C-S-h>"] = { "<cmd>cclose<cr>", desc = "Close quickfix list" },
+          -- Search for visually selected text in project and put in quickfix list
+          ["<C-S-i>"] = { 
+            function()
+              local escaped_text = vim.fn.escape(vim.fn.expand("<cword>"), '\\/.*$^~[]')
+              vim.cmd('vimgrep /' .. escaped_text .. '/gj **/*')
+              vim.cmd('copen')
+            end,
+            desc = "Find word under cursor in project" 
+          },
           -- tables with the `name` key will be registered with which-key if it's installed
           -- this is useful for naming menus
           ["<Leader>b"] = { name = "Buffers" },

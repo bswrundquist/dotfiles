@@ -37,6 +37,7 @@
 
     # productivity
     glow # markdown previewer in terminal
+    bat
   ];
 
   programs = {

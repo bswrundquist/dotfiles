@@ -27,6 +27,7 @@
         "extract"
         "fzf"
         "history-substring-search"
+        "terraform"
       ];
       theme = "robbyrussell";
     };
@@ -36,6 +37,8 @@
       # eval "$(/opt/homebrew/bin/brew shellenv)"
       #   export NVM_DIR="$HOME/.nvm" 
       #   . "/usr/local/opt/nvm/nvm.sh"
+
+      eval "$(zoxide init zsh)"
       
       bindkey '^[[A' history-substring-search-up
       bindkey '^[OA' history-substring-search-up
@@ -46,6 +49,63 @@
       bindkey '^K' history-substring-search-down
       bindkey '^F' forward-word
 
+      # Function to search files with rg, preview with bat, and open with editor
+      search_preview() {
+        if ! command -v rg &> /dev/null || ! command -v fzf &> /dev/null || ! command -v bat &> /dev/null; then
+          echo "Error: This function requires rg, fzf, and bat to be installed."
+          return 1
+        fi
+        
+        # Check if search pattern is provided
+        if [[ $# -eq 0 ]]; then
+          echo "Usage: search_preview <search_pattern>"
+          return 1
+        fi
+        
+        local selected=$(
+          rg --color=always --line-number --no-heading --smart-case "$@" |
+            fzf --ansi \
+                --delimiter : \
+                --preview 'bat --style=numbers --color=always --highlight-line {2} {1}' \
+                --preview-window '+{2}-/2'
+        )
+        
+        if [[ -n "$selected" ]]; then
+          local file=$(echo "$selected" | cut -d':' -f1)
+          local line=$(echo "$selected" | cut -d':' -f2)
+          
+          # Try to find the best editor
+          local editor=""
+          if command -v nvim &> /dev/null; then
+            editor="nvim"
+          elif command -v vim &> /dev/null; then
+            editor="vim"
+          elif command -v code &> /dev/null; then
+            editor="code"
+          elif [[ -n "$EDITOR" ]]; then
+            editor="$EDITOR"
+          else
+            echo "Error: No suitable editor found. Please install nvim, vim, or set EDITOR environment variable."
+            return 1
+          fi
+          
+          # Open the file with the selected editor
+          case "$editor" in
+            "nvim"|"vim")
+              "$editor" "$file" +$line
+              ;;
+            "code")
+              "$editor" -g "$file:$line"
+              ;;
+            *)
+              "$editor" "$file"
+              ;;
+          esac
+        fi
+      }
+      
+      # Alias for the search function
+      alias sp="search_preview"
     '';
   plugins = [
     {

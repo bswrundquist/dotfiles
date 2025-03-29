@@ -6,6 +6,7 @@
     ./core.nix
     ./fish.nix
     ./git.nix
+    ./ghostty.nix
     ./home.nix
     ./kitty.nix
     ./neovim.nix

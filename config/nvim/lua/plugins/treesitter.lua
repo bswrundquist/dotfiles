@@ -1,5 +1,3 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- Customize Treesitter
 
 ---@type LazySpec
@@ -9,7 +7,33 @@ return {
     ensure_installed = {
       "lua",
       "vim",
-      -- add more arguments for adding more treesitter parsers
+      "bash",
+      "c",
+      "cpp",
+      "css",
+      "html",
+      "javascript",
+      "json",
+      "markdown",
+      "markdown_inline",
+      "python",
+      "regex",
+      "rust",
+      "tsx",
+      "typescript",
+      "yaml",
+    },
+    auto_install = true,
+    highlight = {
+      enable = true,
+      additional_vim_regex_highlighting = false,
+    },
+    incremental_selection = {
+      enable = true,
+    },
+    indent = {
+      enable = true,
     },
   },
+  build = ":TSUpdate",
 }
