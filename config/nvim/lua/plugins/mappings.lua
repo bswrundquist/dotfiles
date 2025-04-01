@@ -8,16 +8,16 @@ return {
         n = {
           -- second key is the lefthand side of the map
           -- mappings seen under group name "Buffer"
-          ["<Leader>nb"] = { "<cmd>e ~/.notebook/notes.md<cr>", desc = "New tab" },
-          ["<Leader>nr"] = { "<cmd>e ~/.notebook/rolodex.md<cr>", desc = "New tab" },
-          ["<Leader>nt"] = { "<cmd>e ~/.notebook/tasks.md<cr>", desc = "New tab" },
-          ["<Leader>na"] = { "<cmd>e ~/.notebook/admin.md<cr>", desc = "New tab" },
+          ["<Leader>nb"] = { "<cmd>e ~/.notebook/notes.md<cr>", desc = "Open notes" },
+          ["<Leader>nr"] = { "<cmd>e ~/.notebook/rolodex.md<cr>", desc = "Open rolodex" },
+          ["<Leader>nt"] = { "<cmd>e ~/.notebook/tasks.md<cr>", desc = "Open tasks" },
+          ["<Leader>na"] = { "<cmd>e ~/.notebook/admin.md<cr>", desc = "Open admin" },
           ["<Leader>bn"] = { "<cmd>tabnew<cr>", desc = "New tab" },
           ["<Leader>bD"] = {
             function()
-              require("astroui.status").heirline.buffer_picker(function(bufnr)
-                require("astrocore.buffer").close(bufnr)
-              end)
+              require("astroui.status").heirline.buffer_picker(
+                function(bufnr) require("astrocore.buffer").close(bufnr) end
+              )
             end,
             desc = "Pick to close",
           },
@@ -31,13 +31,13 @@ return {
           ["<C-S-l>"] = { "<cmd>copen<cr>", desc = "Open quickfix list" },
           ["<C-S-h>"] = { "<cmd>cclose<cr>", desc = "Close quickfix list" },
           -- Search for visually selected text in project and put in quickfix list
-          ["<C-S-i>"] = { 
+          ["<C-S-i>"] = {
             function()
-              local escaped_text = vim.fn.escape(vim.fn.expand("<cword>"), '\\/.*$^~[]')
-              vim.cmd('vimgrep /' .. escaped_text .. '/gj **/*')
-              vim.cmd('copen')
+              local escaped_text = vim.fn.escape(vim.fn.expand "<cword>", "\\/.*$^~[]")
+              vim.cmd("vimgrep /" .. escaped_text .. "/gj **/*")
+              vim.cmd "copen"
             end,
-            desc = "Find word under cursor in project" 
+            desc = "Find word under cursor in project",
           },
           -- tables with the `name` key will be registered with which-key if it's installed
           -- this is useful for naming menus
@@ -63,16 +63,12 @@ return {
         n = {
           -- this mapping will only be set in buffers with an LSP attached
           K = {
-            function()
-              vim.lsp.buf.hover()
-            end,
+            function() vim.lsp.buf.hover() end,
             desc = "Hover symbol details",
           },
           -- condition for only server with declaration capabilities
           gD = {
-            function()
-              vim.lsp.buf.declaration()
-            end,
+            function() vim.lsp.buf.declaration() end,
             desc = "Declaration of current symbol",
             cond = "textDocument/declaration",
           },
