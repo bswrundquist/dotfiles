@@ -47,57 +47,30 @@ alt-shift-c = 'reload-config'
 5 = ['built-in', 'secondary', 'main']
 
 [[on-window-detected]]
-if.app-name-regex-substring = 'reminder'
+if.app-name-regex-substring = 'kitty'
 run = 'move-node-to-workspace 1'
 
-[[on-window-detected]]
-if.app-name-regex-substring = 'mail'
-run = 'move-node-to-workspace 1'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'calendar'
-run = 'move-node-to-workspace 1'
-
-# code
-[[on-window-detected]]
-if.app-name-regex-substring = 'intellij'
-run = 'move-node-to-workspace 2'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'alacritty'
-run = 'move-node-to-workspace 2'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'arc'
-run = 'move-node-to-workspace 2'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'code'
-run = 'move-node-to-workspace 2'
-
-# chat
-[[on-window-detected]]
-if.app-name-regex-substring = 'signal'
-run = 'move-node-to-workspace 3'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'messages'
-run = 'move-node-to-workspace 3'
-
-# utils
-[[on-window-detected]]
-if.app-name-regex-substring = 'spotify'
-run = 'move-node-to-workspace 4'
-# 
-[[on-window-detected]]
-if.app-name-regex-substring = 'bitwarden'
-run = 'move-node-to-workspace 4'
-
-# business
 [[on-window-detected]]
 if.app-name-regex-substring = 'teams'
-run = 'move-node-to-workspace 5'
+run = 'move-node-to-workspace 2'
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'slack'
-run = 'move-node-to-workspace 5' 
+run = 'move-node-to-workspace 2' 
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'qutebrowser'
+run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'mail'
+run = 'move-node-to-workspace 4'
+
+# code
+[[on-window-detected]]
+if.app-name-regex-substring = 'reminder'
+run = 'move-node-to-workspace 5'
+
+[[on-window-detected]]
+if.app-name-regex-substring = '1password'
+run = 'move-node-to-workspace 5'
