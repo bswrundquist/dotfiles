@@ -8,6 +8,7 @@
     ./git.nix
     ./ghostty.nix
     ./home.nix
+    ./karabiner.nix
     ./kitty.nix
     ./neovim.nix
     ./python312.nix

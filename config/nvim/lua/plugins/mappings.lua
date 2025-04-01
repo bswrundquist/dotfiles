@@ -6,8 +6,14 @@ return {
       mappings = {
         -- first key is the mode
         n = {
-          -- second key is the lefthand side of the map
-          -- mappings seen under group name "Buffer"
+          -- Insert datetime string
+          ["<Leader>1"] = {
+            function()
+              local datetime = os.date "%Y-%m-%d %H:%M:%S"
+              vim.api.nvim_put({ datetime }, "", true, true)
+            end,
+            desc = "Insert datetime string",
+          },
           ["<Leader>nb"] = { "<cmd>e ~/.notebook/notes.md<cr>", desc = "Open notes" },
           ["<Leader>nr"] = { "<cmd>e ~/.notebook/rolodex.md<cr>", desc = "Open rolodex" },
           ["<Leader>nt"] = { "<cmd>e ~/.notebook/tasks.md<cr>", desc = "Open tasks" },
