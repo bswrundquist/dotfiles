@@ -9,7 +9,7 @@ return {
   { import = "astrocommunity.pack.nix" },
   { import = "astrocommunity.pack.ansible" },
   { import = "astrocommunity.pack.quarto" },
-  { import = "astrocommunity.motion.flash-nvim" },
+  -- { import = "astrocommunity.motion.flash-nvim" },
   -- { import = "astrocommunity.motion.terraform" },
   -- { import = "astrocommunity.completion.copilot-cmp" },
   { import = "astrocommunity.completion.copilot-lua-cmp" },
@@ -29,5 +29,5 @@ return {
 
       -- Setup shortcuts here (see Usage > Shortcuts in the Documentation/Readme)
     end,
-  }
+  },
 }

@@ -7,7 +7,7 @@ return {
       opts = {
         mappings = {
           x = {
-            ["s"] = {
+            ["f"] = {
               function() require("flash").jump() end,
               desc = "Flash",
             },
@@ -29,7 +29,7 @@ return {
               function() require("flash").treesitter_search() end,
               desc = "Treesitter Search",
             },
-            ["s"] = {
+            ["f"] = {
               function() require("flash").jump() end,
               desc = "Flash",
             },
@@ -39,11 +39,11 @@ return {
             },
           },
           n = {
-            ["s"] = {
+            ["f"] = {
               function() require("flash").jump() end,
               desc = "Flash",
             },
-            ["S"] = {
+            ["F"] = {
               function() require("flash").treesitter() end,
               desc = "Flash Treesitter",
             },
@@ -52,5 +52,18 @@ return {
       },
     },
   },
-  opts = {},
+  opts = {
+    modes = {
+      -- disable the default flash.nvim modes
+      search = {
+        enabled = true,
+        highlight = {
+          backdrop = false,
+        },
+      },
+      char = {
+        enabled = false,
+      },
+    },
+  },
 }

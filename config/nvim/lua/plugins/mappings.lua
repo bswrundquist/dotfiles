@@ -8,6 +8,10 @@ return {
         n = {
           -- second key is the lefthand side of the map
           -- mappings seen under group name "Buffer"
+          ["<Leader>nb"] = { "<cmd>e ~/.notebook/notes.md<cr>", desc = "New tab" },
+          ["<Leader>nr"] = { "<cmd>e ~/.notebook/rolodex.md<cr>", desc = "New tab" },
+          ["<Leader>nt"] = { "<cmd>e ~/.notebook/tasks.md<cr>", desc = "New tab" },
+          ["<Leader>na"] = { "<cmd>e ~/.notebook/admin.md<cr>", desc = "New tab" },
           ["<Leader>bn"] = { "<cmd>tabnew<cr>", desc = "New tab" },
           ["<Leader>bD"] = {
             function()

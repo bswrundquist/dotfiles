@@ -30,3 +30,6 @@ vim.filetype.add {
     ["~/%.config/foo/.*"] = "fooscript",
   },
 }
+
+-- Add keymap for opening notes.md
+vim.keymap.set('n', '<leader>n', ':e ~/notes.md<CR>', { silent = true })
