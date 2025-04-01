@@ -52,8 +52,11 @@
       # Disable greeting
       set fish_greeting
 
+      # Ensure Nix paths are properly set
+      fish_add_path $HOME/.nix-profile/bin /nix/var/nix/profiles/default/bin
+
       if test -d "$HOME/.bin"
-        set -gx PATH "$HOME/.bin" $PATH
+        fish_add_path "$HOME/.bin"
       end
 
       # Custom Scripts

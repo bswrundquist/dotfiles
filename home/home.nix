@@ -3,6 +3,7 @@
 {
   imports = [
     ./zsh.nix
+    ./karabiner.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -15,6 +16,13 @@
   # introduces backwards incompatible changes.
   # home.stateVersion = "23.11"; # Please read the comment before changing.
 
-  home.sessionVariables.PATH = "/opt/homebrew/bin:/opt/homebrew/sbin:$PATH";
+  home.sessionVariables = {
+    # Ensure nix binaries are first in PATH
+    NIX_PATH = "$HOME/.nix-defexpr/channels:$NIX_PATH";
+    PATH = "$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH";
+  };
+  
+  # This ensures home-manager adds its paths correctly
+  programs.home-manager.enable = true;
 }
 

@@ -1,23 +1,28 @@
 { pkgs, ... }: {
   programs.tmux = {
     enable = true;
+    # Only keep essential nix-specific settings
     clock24 = true;
     shortcut = "a";
     baseIndex = 1;
-    # Stop tmux+escape madness
     escapeTime = 0;
+    
+    # Keep the plugins managed by nix for reproducibility
     plugins = with pkgs; [
       tmuxPlugins.better-mouse-mode
       tmuxPlugins.vim-tmux-navigator
       tmuxPlugins.tmux-fzf
       tmuxPlugins.sensible
       tmuxPlugins.resurrect
-      tmuxPlugins.nord
       tmuxPlugins.continuum
       tmuxPlugins.yank
-
+      tmuxPlugins.tmux-sessionx
+      tmuxPlugins.dracula
     ];
+
+    # Consolidated tmux configuration
     extraConfig = ''
+# Set prefix to Ctrl-Space
 unbind C-b
 set -g prefix C-a
 bind C-b send-prefix
@@ -28,24 +33,22 @@ bind - split-window -v -c "#{pane_current_path}"
 unbind '"'
 unbind %
 
-# reload config file (change file location to your the tmux.conf you want to use)
-bind r source-file ~/.tmux.conf
-
+# History and indexing settings
 set -g history-limit 5000
 set -g base-index 1
 setw -g pane-base-index 1
 
-
 # open new windows in the current path
 bind c new-window -c "#{pane_current_path}"
 
-# set default terminal mode to 256 colors
+# Terminal settings
 set -g default-terminal "xterm-256color"
 set -ga terminal-overrides ",xterm-256color:Tc"
 
-# don't rename windows automatically
+# Window settings
 set -g allow-rename off
 
+# Vi mode settings
 set-window-option -g mode-keys vi
 bind -T copy-mode-vi v send -X begin-selection
 bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel
@@ -55,9 +58,13 @@ bind -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel
 # Enable mouse control (clickable windows, panes, resizable panes)
 set -g mouse on
 
+# IPython split window
 bind-key v split-window -h \; \
-  send-keys 'source ./venv/bin/activate.fish && python -m IPython' C-m
+  send-keys 'source ./venv/bin/activate && python -m IPython' C-m
+
+# Force zsh as the default shell
+set -g default-shell /bin/zsh
+set -g default-command /bin/zsh
     '';
-   
-};
+  };
 }

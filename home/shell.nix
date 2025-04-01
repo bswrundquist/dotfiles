@@ -44,6 +44,15 @@
     tn = "tmux new -s";
     ta = "tmux attach -t";
     tk = "tmux kill-session -t";
+    ts = "tmux new -s smithy || tmux attach -t smithy";
+    tnb = "tmux new -s notebook -c ~/.notebook || tmux attach -t notebook";
+
+    nn = "nvim ~/.notebook/notes.md";
+    nt = "nvim ~/.notebook/tasks.md";
+    nr = "nvim ~/.notebook/rolodex.md";
+    na = "nvim ~/.notebook/admin.md";
+
+    ss = "sesh connect $(sesh list | fzf)";
 
     ".." = "cd ..";
     "..." = "cd ../..";

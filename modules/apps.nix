@@ -21,6 +21,23 @@
     git
   ];
 
+  # Start sketchybar automatically
+  launchd.user.agents.sketchybar = {
+    serviceConfig = {
+      RunAtLoad = true;
+      KeepAlive = true;
+      ProcessType = "Interactive";
+      StandardOutPath = "/tmp/sketchybar.out.log";
+      StandardErrorPath = "/tmp/sketchybar.err.log";
+      EnvironmentVariables = {
+        PATH = "/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+      };
+    };
+    script = ''
+      exec /opt/homebrew/bin/sketchybar
+    '';
+  };
+
   # TODO To make this work, homebrew need to be installed manually, see https://brew.sh
   #
   # The apps installed by homebrew are not managed by nix, and not reproducible!
@@ -37,6 +54,7 @@
 
     taps = [
       "homebrew/services"
+      "FelixKratz/formulae"
     ];
 
     # `brew install`
@@ -48,7 +66,7 @@
 	    "fd"
 	    "hashicorp/tap/packer"
 	    "lima"
-	    "neovim"
+	    # "neovim" # Now using Nix version
 	    "node"
 	    "qemu"
 	    "telnet"
@@ -57,8 +75,10 @@
 	    "zoxide"
       "ffmpeg"
       "lazygit"
+      "imagemagick"
       "nvm"
       "poppler"
+      "sketchybar"
     ];
 
     # `brew install --cask`
@@ -69,9 +89,11 @@
 	    "discord"
 	    "firefox"
 	    "font-fira-code"
+	    "font-hack-nerd-font"  # Required for sketchybar
 	    "ghostty"
 	    "gimp"
 	    "google-cloud-sdk"
+      "karabiner-elements"
 	    "keepingyouawake"
 	    "kitty"
 	    "nikitabobko/tap/aerospace"
