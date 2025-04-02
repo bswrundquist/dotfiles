@@ -44,6 +44,8 @@
 
     sesh
     taskwarrior3
+    tmuxp
+    entr
   ];
 
   programs = {
