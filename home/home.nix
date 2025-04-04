@@ -15,10 +15,11 @@
   # introduces backwards incompatible changes.
   # home.stateVersion = "23.11"; # Please read the comment before changing.
 
+  # We can't use dynamic paths in home.sessionVariables since it's evaluated at build time,
+  # so we'll rely on our shell configurations to set the proper PATH
   home.sessionVariables = {
     # Ensure nix binaries are first in PATH
     NIX_PATH = "$HOME/.nix-defexpr/channels:$NIX_PATH";
-    PATH = "$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH";
   };
   
   # This ensures home-manager adds its paths correctly

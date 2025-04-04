@@ -99,7 +99,6 @@
 	    "nikitabobko/tap/aerospace"
 	    "obsidian"
 	    "pantsbuild/tap/pants"
-	    "pgadmin4"
 	    "raycast"
 	    "slack"
 	    "tailscale"

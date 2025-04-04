@@ -33,11 +33,30 @@
     };
     
     initExtra = ''
-      export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin"
-      # eval "$(/opt/homebrew/bin/brew shellenv)"
-      #   export NVM_DIR="$HOME/.nvm" 
-      #   . "/usr/local/opt/nvm/nvm.sh"
-
+      # Source Nix environment first to ensure Nix paths take precedence
+      if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+        . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+      fi
+      
+      # Find the home-manager-path directory dynamically
+      HM_PATH=$(readlink -f "$HOME/.nix-profile")
+      HM_PATH=$(readlink -f "$HM_PATH/home-path")
+      
+      if [ -d "$HM_PATH/bin" ]; then
+        # Add Home Manager paths
+        export PATH="$HOME/.nix-profile/bin:$HM_PATH/bin:/nix/var/nix/profiles/default/bin:$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin:/opt/homebrew/bin:/opt/homebrew/sbin"
+        
+        # Set FZF_BASE for oh-my-zsh plugin
+        export FZF_BASE="$HM_PATH/bin"
+      else
+        echo "Warning: Could not find home-manager-path bin directory at $HM_PATH/bin"
+        # Fallback path setting
+        export PATH="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin:/opt/homebrew/bin:/opt/homebrew/sbin"
+      fi
+      
+      # Debugging info - uncomment if you want to see your PATH at login
+      # echo "PATH at login: $PATH"
+      
       eval "$(zoxide init zsh)"
       
       bindkey '^[[A' history-substring-search-up
@@ -106,6 +125,39 @@
       
       # Alias for the search function
       alias sp="search_preview"
+# Add these functions to your .zshrc file
+
+# Function to run a command in a new tmux pane and store the pane ID
+trun() {
+  local cmd="$@"
+  NEW_PANE_ID=$(tmux split-window -h -d -P -F "#{pane_id}" "$cmd; zsh")
+  echo "$NEW_PANE_ID" > /tmp/last_tmux_pane_id
+  echo "New pane created with ID: $NEW_PANE_ID (saved to /tmp/last_tmux_pane_id)"
+}
+
+# Function to capture output from the last created pane
+# Function to capture output from the last created pane
+
+tcap() {
+  if [ -f /tmp/last_tmux_pane_id ]; then
+    local pane_id=$(cat /tmp/last_tmux_pane_id)
+    local output_file
+    
+    if [ "$1" = "" ]; then
+      # Create default filename with pane_id included
+      output_file="tmux_captured_pane_$pane_id.txt"
+    else
+      output_file="$1"
+    fi
+    
+    tmux capture-pane -p -t "$pane_id" > "$output_file"
+    echo "Captured output from pane $pane_id to $output_file"
+  else
+    echo "No pane ID found. Run trun first."
+    return 1
+  fi
+}
+
     '';
   plugins = [
     {

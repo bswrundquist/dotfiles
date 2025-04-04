@@ -53,7 +53,16 @@
       set fish_greeting
 
       # Ensure Nix paths are properly set
-      fish_add_path $HOME/.nix-profile/bin /nix/var/nix/profiles/default/bin
+      # Find home-manager-path directory dynamically
+      set HM_PATH (readlink -f "$HOME/.nix-profile")
+      set HM_PATH (readlink -f "$HM_PATH/home-path")
+      
+      if test -d "$HM_PATH/bin"
+        fish_add_path $HOME/.nix-profile/bin $HM_PATH/bin /nix/var/nix/profiles/default/bin
+      else
+        echo "Warning: Could not find home-manager-path bin directory at $HM_PATH/bin"
+        fish_add_path $HOME/.nix-profile/bin /nix/var/nix/profiles/default/bin
+      end
 
       if test -d "$HOME/.bin"
         fish_add_path "$HOME/.bin"
