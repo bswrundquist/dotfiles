@@ -48,6 +48,8 @@ set -ga terminal-overrides ",xterm-256color:Tc"
 # Window settings
 set -g allow-rename off
 
+bind-key -T copy-mode-vi y send -X copy-pipe-and-cancel "pbcopy"
+
 # Vi mode settings
 set-window-option -g mode-keys vi
 bind -T copy-mode-vi v send -X begin-selection
