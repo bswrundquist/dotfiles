@@ -9,6 +9,7 @@
   # home.file.".config/qutebrowser/config.py".text = ''
   home.file.".qutebrowser/config.py".text = ''
     # Basic configuration for qutebrowser
+    config.load_autoconfig()
     
     # Set the start page
     c.url.start_pages = ["https://start.duckduckgo.com"]
@@ -48,8 +49,10 @@
     config.bind("<Ctrl-r>", "reload")
     config.bind("<Ctrl-p>", "tab-prev")
     config.bind("<Ctrl-n>", "tab-next")
+    config.bind("<Ctrl-a>", "tab-prev")
+    config.bind("<Ctrl-s>", "tab-next")
     config.bind("<Ctrl-t>", "open -t")
-    config.bind("kj", "mode-leave", mode="insert")
+    config.bind("<Ctrl-c>", "mode-leave", mode="insert")
     
     # Additional settings
     c.zoom.default = "100%"
