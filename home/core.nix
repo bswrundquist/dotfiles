@@ -46,6 +46,7 @@
     taskwarrior3
     tmuxp
     entr
+    xclip
   ];
 
   programs = {

@@ -49,6 +49,7 @@
     config.bind("<Ctrl-p>", "tab-prev")
     config.bind("<Ctrl-n>", "tab-next")
     config.bind("<Ctrl-t>", "open -t")
+    config.bind("kj", "mode-leave", mode="insert")
     
     # Additional settings
     c.zoom.default = "100%"
