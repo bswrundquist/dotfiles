@@ -1,6 +1,8 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    docker_27
+    direnv
+
+    buck2
 
     coreutils
     colima
