@@ -7,6 +7,7 @@
     ./fish.nix
     ./git.nix
     ./ghostty.nix
+    ./haskell.nix
     ./home.nix
     ./karabiner.nix
     ./kitty.nix
