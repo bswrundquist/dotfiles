@@ -1,13 +1,18 @@
 # neovim-custom.nix
 { pkgs }:
 
-pkgs.neovim.overrideAttrs (oldAttrs: rec {
-  version = "0.9.2"; # Specify the desired version
-  src = pkgs.fetchFromGitHub {
-    owner = "neovim";
-    repo = "neovim";
-    rev = "v0.9.2"; # Corresponding version tag
-    sha256 = "0mag2saywmyy09lwbpdnkn45br3ayligccp8rd081kj1mnb2vawh"; # Replace with the actual SHA256
-  };
-})
+let
+  # Define a specific version of Neovim from nixpkgs
+  specificVersion = "0.10";
+  
+  # Filter for the specific version
+  pkg = (builtins.filter 
+    (p: p.version == specificVersion) 
+    (builtins.attrValues pkgs.neovimVersions)
+  );
+  
+  # Use the specific version or fallback to regular neovim
+  nvim = if pkg != [] then builtins.head pkg else pkgs.neovim;
+in
+  nvim
 
