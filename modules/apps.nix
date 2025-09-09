@@ -71,7 +71,6 @@
 	    "qemu"
 	    "telnet"
 	    "tfenv"
-	    "tfenv"
 	    "zoxide"
       "ffmpeg"
       "lazygit"
@@ -103,10 +102,12 @@
 	    "slack"
 	    "tailscale"
 	    "utm"
-      "docker"
       "quarto"
       "qutebrowser"
       # "google-chrome"
+      "visual-studio-code"
+      "windsurf"
+      "gcloud-cli"
     ];
     masApps = {
 
