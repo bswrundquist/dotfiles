@@ -21,7 +21,6 @@
         "git"
         "vi-mode"
         "sudo"
-        "docker"
         "kubectl"
         "history"
         "extract"
@@ -157,6 +156,7 @@ tcap() {
     return 1
   fi
 }
+eval "$(direnv hook zsh)"
 
     '';
   plugins = [

@@ -17,7 +17,6 @@
     # Additional useful Haskell tools
     hlint          # Haskell linter
     ormolu         # Haskell formatter
-    hoogle         # Haskell API search
   ];
 
   # Set up environment variables for Haskell development
