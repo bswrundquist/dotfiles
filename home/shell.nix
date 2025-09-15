@@ -13,6 +13,7 @@
 
     k = "kubectl";
     d = "docker";
+    dc = "docker-compose";
     m = "make";
     v = "nvim";
     lg = "lazygit";
