@@ -66,22 +66,24 @@
 	    "fd"
 	    "hashicorp/tap/packer"
 	    "lima"
-	    # "neovim" # Now using Nix version
 	    "node"
 	    "qemu"
 	    "telnet"
 	    "tfenv"
 	    "zoxide"
+	    # "neovim" # Now using Nix version
       "ffmpeg"
-      "lazygit"
       "imagemagick"
+      "lazygit"
       "nvm"
+      "podman"
       "poppler"
       "sketchybar"
     ];
 
     # `brew install --cask`
     casks = [
+      "docker-desktop"
 	    "1password"
 	    "1password-cli"
 	    "cursor"
