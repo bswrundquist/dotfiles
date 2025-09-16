@@ -109,7 +109,6 @@
       # "google-chrome"
       "visual-studio-code"
       "windsurf"
-      "gcloud-cli"
     ];
     masApps = {
 
