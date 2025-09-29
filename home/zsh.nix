@@ -1,4 +1,6 @@
 { pkgs, config, ... }: {
+  # Install our custom Bash git helper file into ~/.config/bash
+  xdg.configFile."bash/git-functions.bash".source = ../config/git-functions.bash;
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -157,6 +159,29 @@ tcap() {
   fi
 }
 eval "$(direnv hook zsh)"
+
+      # Source user git helpers (Bash script) if present
+      if [ -f "$XDG_CONFIG_HOME/bash/git-functions.bash" ]; then
+        . "$XDG_CONFIG_HOME/bash/git-functions.bash"
+      elif [ -f "$HOME/.config/bash/git-functions.bash" ]; then
+        . "$HOME/.config/bash/git-functions.bash"
+      fi
+
+      # Ensure our worktree functions override plugin aliases every prompt
+      autoload -Uz add-zsh-hook
+      fix_git_worktree_aliases() {
+        unalias gwt 2>/dev/null || true
+        unalias gws 2>/dev/null || true
+        unalias gwr 2>/dev/null || true
+        unalias gwl 2>/dev/null || true
+        unalias gwm 2>/dev/null || true
+        unalias gwi 2>/dev/null || true
+        alias 'gwt-move'=gwt_move
+        alias 'gwt-clean'=gwt_clean
+        alias 'gwt-status'=gwt_status
+        alias 'gwt-temp'=gwt_temp
+      }
+      add-zsh-hook -Uz precmd fix_git_worktree_aliases
 
     '';
   plugins = [
