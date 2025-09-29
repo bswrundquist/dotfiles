@@ -11,7 +11,6 @@
 
     todos = "rg \"TODO|FIXME|HACK\"";
 
-    k = "kubectl";
     d = "docker";
     dc = "docker-compose";
     m = "make";
@@ -20,16 +19,22 @@
 
     g = "git";
     gs = "git status";
-    ga = "git add";
-    gc = "git commit";
-    gp = "git push";
-    gd = "git diff";
-    gco = "git checkout";
-    gcb = "git checkout -b";
-    gpl = "git pull";
+
+    gcs = "gcloud storage";
 
     h = "history";
     hg = "history | rg";
+
+    k = "kubectl";
+    kgpo = "kubectl get pod";
+    kdpo = "kubectl describe pod";
+    kgs = "kubectl get svc";
+    kds = "kubectl describe svc";
+    kgn = "kubectl get nodes";
+    kdn = "kubectl describe nodes";
+    kctx = "kubctx";
+    kns = "kubens";
+    kpf = "kubectl port-forward";
 
     l = "ls -l";
     ll = "ls -lha";

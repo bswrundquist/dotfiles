@@ -1,6 +1,10 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     direnv
+    
+    kubectx
+    k9s
+    kubectl-tree
 
     buck2
 
