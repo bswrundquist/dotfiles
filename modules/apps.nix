@@ -81,6 +81,7 @@
       "sketchybar"
     ];
 
+
     # `brew install --cask`
     casks = [
       "docker-desktop"
@@ -93,7 +94,8 @@
 	    "font-hack-nerd-font"  # Required for sketchybar
 	    "ghostty"
 	    "gimp"
-	    "google-cloud-sdk"
+	    # "google-cloud-sdk"
+	    "gcloud-cli"
       "karabiner-elements"
 	    "keepingyouawake"
 	    "kitty"
@@ -102,7 +104,7 @@
 	    "pantsbuild/tap/pants"
 	    "raycast"
 	    "slack"
-	    "tailscale"
+	    "tailscale-app"
 	    "utm"
       "quarto"
       "qutebrowser"
