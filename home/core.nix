@@ -1,7 +1,21 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     direnv
-    
+    pyright
+    cmake
+
+    chicken
+    guile
+    # Common Lisp
+    sbcl
+    ecl
+    # Clojure toolchain
+    clojure
+    jdk
+    leiningen
+    babashka
+    clj-kondo
+
     kubectx
     k9s
     kubectl-tree
