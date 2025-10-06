@@ -3,30 +3,17 @@
 {
   programs.emacs = {
     enable = true;
-    # Use the default Emacs from nixpkgs. Change to pkgs.emacs29/emacs-gtk if desired.
     package = pkgs.emacs;
-    # Install Evil from the nixpkgs Emacs package set to avoid network installs at runtime.
-    extraPackages = epkgs: [ epkgs.evil ];
+   # Don't manage packages via Nix - let straight.el handle them
+    # extraPackages = epkgs: with epkgs; [];
   };
 
-  # Provide a minimal init.el that enables Evil. Place it under XDG and classic paths for compatibility.
-  xdg.configFile."emacs/init.el".text = ''
-    ;; Minimal Emacs init with Evil
-    (setq inhibit-startup-screen t
-          ring-bell-function #'ignore)
-
-    (require 'evil)
-    (evil-mode 1)
-  '';
-
-  home.file.".emacs.d/init.el".text = ''
-    ;; Minimal Emacs init with Evil
-    (setq inhibit-startup-screen t
-          ring-bell-function #'ignore)
-
-    (require 'evil)
-    (evil-mode 1)
-  '';
+  home.file.".emacs.d/init.el" = {
+      source = ../config/emacs/init.el;
+  };
+  home.file.".config/emacs/init.el" = {
+      source = ../config/emacs/init.el;
+  };
 }
 
 

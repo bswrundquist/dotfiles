@@ -1,32 +1,49 @@
+;;; init.el --- Minimal Emacs config with Evil and theme -*- lexical-binding: t; -*-
 
-;;; init.el --- Clean, reliable Emacs setup -*- lexical-binding: t; -*-
+;; Ensure GUI Emacs gets a proper PATH on macOS
+(when (memq window-system '(mac ns))
+  ;; Common Nix profile locations:
+  (dolist (p '("~/.nix-profile/bin"
+               "/etc/profiles/per-user/$USER/bin"
+               "/run/current-system/sw/bin"
+               "/nix/var/nix/profiles/default/bin"))
+    (when (file-directory-p (substitute-in-file-name p))
+      (add-to-list 'exec-path (substitute-in-file-name p))
+      (setenv "PATH" (concat (substitute-in-file-name p) ":" (getenv "PATH"))))))
+
+;; (Optional but nice) also pull the shell env
+(use-package exec-path-from-shell
+  :straight t
+  :if (memq window-system '(mac ns))
+  :config
+  (exec-path-from-shell-copy-env "PATH"))
+
+;; put these near the top of your init
+(when (memq window-system '(mac ns))
+  (setenv "PATH" (concat "/opt/homebrew/bin:/usr/local/bin:" (getenv "PATH")))
+  (add-to-list 'exec-path "/opt/homebrew/bin")
+  (add-to-list 'exec-path "/usr/local/bin"))
 
 ;; ---------------------------------------
-;; Start simple & predictable
+;; Basic settings
 ;; ---------------------------------------
-;; Reduce GC during startup, then raise for interactive use
-(setq gc-cons-threshold 100000000   ;; 100 MB
-      gc-cons-percentage 0.6)
-
 (setq inhibit-startup-message t
       ring-bell-function 'ignore
       make-backup-files nil
-      auto-save-default nil
-      package-enable-at-startup nil
-      frame-resize-pixelwise t)
+      auto-save-default nil)
 
+;; Clean UI
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (global-display-line-numbers-mode 1)
-(column-number-mode 1)
 (setq display-line-numbers-type 'relative)
 
-;; Optional: quiet native-comp warnings
-(setq native-comp-async-report-warnings-errors 'silent)
+(add-to-list 'exec-path "/opt/homebrew/bin")
+
 
 ;; ---------------------------------------
-;; straight.el + use-package bootstrap
+;; Package management: straight.el
 ;; ---------------------------------------
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -41,307 +58,205 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-;; Configure straight.el
 (setq straight-use-package-by-default t)
 (straight-use-package 'use-package)
-(require 'use-package)
-
-;; Ensure core packages are installed
-;; (straight-use-package 'rainbow-delimiters)
-(straight-use-package 'which-key)
-(straight-use-package 'magit)
-(straight-use-package 'org)
-(straight-use-package 'yaml-mode)
-(straight-use-package 'dockerfile-mode)
-(straight-use-package 'docker-compose-mode)
-
-;; --- LSP + Corfu (use CAPF) ----------------------------------------
-;; Make lsp-mode provide completion via completion-at-point (CAPF).
-(setq lsp-completion-provider :capf)   ;; <— not :none
-
-;; Do NOT use Company.
-(use-package company :disabled t)
-
-;; Corfu popup for CAPF
-(use-package corfu
-  :straight t
-  :init
-  (global-corfu-mode)
-  :custom
-  (corfu-auto t)
-  (corfu-auto-prefix 1)
-  (corfu-auto-delay 0.0)
-  (corfu-cycle t)
-  (corfu-preselect 'first))
-
-;; LSP client (built-in)
-(use-package eglot
-  :straight t
-  :hook
-  (python-mode . eglot-ensure)
-  (python-ts-mode . eglot-ensure))
-
-;; Start Eglot for your language(s)
-(add-hook 'python-mode-hook #'eglot-ensure)     ;; adjust for your modes
-
-;; Show docs/types in a help buffer with `K`
-(with-eval-after-load 'evil
-  (define-key evil-normal-state-map (kbd "K") #'eldoc-doc-buffer))
-
-;; Nice echo-area docs while you move the cursor
-(setq eldoc-echo-area-use-multiline-p t
-      eldoc-idle-delay 0.1)
-
-
-;; Optional extra CAPF sources
-(use-package cape :after corfu
-  :init
-  ;; Append CAPE sources so LSP (added by lsp-completion-mode) stays first
-  (add-to-list 'completion-at-point-functions #'cape-file t)
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev t))
-
-;; Snippets for LSP (yasnippet)
-(use-package yasnippet
-  :init (yas-global-mode 1))
-
-;; TAB cycles when menu is open
-(with-eval-after-load 'corfu
-  (define-key corfu-map (kbd "TAB") #'corfu-next)
-  (define-key corfu-map (kbd "<tab>") #'corfu-next)
-  (define-key corfu-map (kbd "S-TAB") #'corfu-previous)
-  (define-key corfu-map (kbd "<backtab>") #'corfu-previous))
-
-;; Make TAB trigger completion when no selection menu is visible
-(define-key prog-mode-map (kbd "TAB") #'completion-at-point)
-(define-key text-mode-map (kbd "TAB") #'completion-at-point)
-
 
 ;; ---------------------------------------
-;; UI: theme, modeline, icons, org look
+;; Theme - Load FIRST before anything else
 ;; ---------------------------------------
 (use-package doom-themes
   :straight t
-  :init (load-theme 'doom-one t)
-  :config (doom-themes-visual-bell-config))
-
-(use-package all-the-icons
-  :straight t
-  :if (display-graphic-p)) ; M-x all-the-icons-install-fonts (once)
-
-(use-package doom-modeline
-  :straight t
-  :init (doom-modeline-mode 1))
-
-(use-package which-key
-  :straight t
-  :init (which-key-mode 1))
-
-;;(use-package rainbow-delimiters
-;;  :straight t
-;;  :demand t
-;;  :config
-;;  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-
-(use-package org-modern
-  :straight t
-  :ensure t
-  :hook (org-mode . org-modern-mode))
+  :demand t
+  :config
+  (load-theme 'doom-one t))
 
 ;; ---------------------------------------
-;; Fuzzy finding: Vertico + Orderless + friends
-;; ---------------------------------------
-(use-package vertico
-  :straight t
-  :init (vertico-mode 1))
-
-(use-package orderless
-  :straight t
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion))
-                                  (lsp-capf (styles orderless)))))
-
-(use-package marginalia
-  :straight t
-  :init (marginalia-mode 1))
-
-(use-package consult
-  :straight t)
-;; Handy search keys
-(global-set-key (kbd "C-c s s") #'consult-line)
-(global-set-key (kbd "C-c s g") #'consult-ripgrep)
-(global-set-key (kbd "C-c s b") #'consult-buffer)
-(global-set-key (kbd "C-c s f") #'consult-find)
-
-;; ---------------------------------------
-;; Projects (built-in project.el is enough)
-;; ---------------------------------------
-(setq project-switch-commands
-      '((project-find-file "Find file")
-        (project-find-dir "Find dir")
-        (project-switch-to-buffer "Switch buffer")
-        (project-dired "Dired")
-        (consult-ripgrep "Ripgrep")))
-
-;; ---------------------------------------
-;; Evil (Vim) + Evil-collection
+;; Evil mode
 ;; ---------------------------------------
 (use-package evil
+  :straight t
+  :demand t
   :init
   (setq evil-want-C-u-scroll t
         evil-want-keybinding nil)
   :config
   (evil-mode 1))
-(use-package evil-collection :after evil :ensure t :config (evil-collection-init))
 
-;; ---------------------------------------
-;; Git
-;; ---------------------------------------
-(use-package magit
+(use-package evil-collection
   :straight t
-  :ensure t
-  :commands magit-status)
-(global-set-key (kbd "C-c g s") #'magit-status)
+  :after evil
+  :demand t
+  :config
+  (evil-collection-init))
 
+(use-package general
+  ;;:straight t
+  ;;:ensure t
+  :after evil
+  :config
+  ;; Create the insert-state definer used in the README example
+  (general-create-definer general-imap
+    :states '(insert))
+
+(general-imap "k"
+              (general-key-dispatch 'self-insert-command
+                :timeout 0.25
+                "j" 'evil-normal-state)))
 ;; ---------------------------------------
-;; Org + Jupyter
+;; Basic nice-to-haves
 ;; ---------------------------------------
-(use-package org
+(use-package which-key
   :straight t
-  :ensure t
-  :defer t)
-;; (use-package jupyter :after org :defer t)
-
-;;((with-eval-after-load 'org
-;;  (org-babel-do-load-languages
-;;   'org-babel-load-languages
-;;     (python . t)
-;;     (emacs-lisp . t)))
-  ;; Run code blocks without asking every time
-;;  (setq org-confirm-babel-evaluate nil
-;;        org-hide-emphasis-markers t
-;;        org-ellipsis " ▾"))
+  :demand t
+  :config
+  (which-key-mode 1))
 
 ;; ---------------------------------------
-;; LSP + Python (pyright) + Flycheck
+;; Completion: Corfu
 ;; ---------------------------------------
-(defun my/python-lsp-start ()
-  "Ensure lsp-pyright is loaded, then start LSP for Python."
-  (require 'lsp-pyright)
-  (lsp-deferred))
+(use-package corfu
+  :straight t
+  :demand t
+  :init
+  (global-corfu-mode)
+  :custom
+  (corfu-auto t)
+  (corfu-auto-prefix 2)
+  (corfu-auto-delay 0.2)
+  (corfu-cycle t)
+  (corfu-preselect 'first)
+  :config
+  ;; TAB-and-Go navigation
+  (define-key corfu-map (kbd "TAB") #'corfu-next)
+  (define-key corfu-map (kbd "<tab>") #'corfu-next)
+  (define-key corfu-map (kbd "S-TAB") #'corfu-previous)
+  (define-key corfu-map (kbd "<backtab>") #'corfu-previous))
 
+;; ---------------------------------------
+;; LSP: Python support
+;; ---------------------------------------
 (use-package lsp-mode
   :straight t
   :commands (lsp lsp-deferred)
-  :hook ((python-mode . my/python-lsp-start)
-         (lsp-mode . lsp-completion-mode))
+  :hook (python-mode . lsp-deferred)
   :custom
-  (lsp-auto-configure nil) ; don't auto-wire Company; we'll use Corfu/CAPF
+  (lsp-completion-provider :capf)  ;; Use completion-at-point (Corfu)
   (lsp-keymap-prefix "C-c l")
-  (lsp-enable-snippet t)
-  (read-process-output-max (* 4 1024 1024))
-  (lsp-idle-delay 0.40))
-
-(use-package lsp-ui
-  :straight t
-  :after lsp-mode
-  :commands lsp-ui-mode)
+  (lsp-idle-delay 0.5)
+  :config
+  (lsp-enable-which-key-integration t))
 
 (use-package lsp-pyright
   :straight t
   :after lsp-mode
-  :defer t)
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-pyright)
+                         (lsp-deferred))))
 
-(use-package flycheck
+(use-package lsp-ui
   :straight t
-  :init (global-flycheck-mode 1))
-;; Pin to Nix path so Emacs always finds the language server
-(with-eval-after-load 'lsp-pyright
-  (setq lsp-pyright-langserver-command "${pkgs.pyright}/bin/pyright-langserver"))
+  :after lsp-mode
+  :commands lsp-ui-mode
+  :custom
+  (lsp-ui-doc-enable t)
+  (lsp-ui-doc-position 'at-point)
+  (lsp-ui-sideline-enable t))
 
-;; ---------------------------------------
-;; Terminals / Env
-;; ---------------------------------------
-;;(use-package vterm
-;;  :ensure t
-;;  :bind (("C-c t" . vterm)))
-;; (Optional) direnv if you use it: (use-package direnv :init (direnv-mode 1))
+;; completion front-end
+(use-package vertico
+  :straight t
+  :init (vertico-mode))
+
+;; better candidate filtering (fuzzy matching)
+(use-package orderless
+  :straight t
+  :init
+  (setq completion-styles '(orderless)
+        completion-category-defaults nil
+        completion-category-overrides
+        '((file (styles partial-completion)))))
+
+;; richer commands (like Telescope pickers)
+(use-package consult
+  :straight t
+  :bind (("C-s"     . consult-line)            ;; fuzzy search in buffer
+         ("C-x b"   . consult-buffer)          ;; switch buffer
+         ("C-x C-b" . consult-buffer)
+         ("M-y"     . consult-yank-pop)
+         ("C-x C-r" . consult-recent-file)
+         ("C-c p f" . project-find-file)
+         ("C-c p s" . consult-ripgrep)))       ;; fuzzy search project
+
+(use-package marginalia
+  :straight t
+  :init (marginalia-mode))
+
+;; (A) projectile
+(use-package projectile
+  :straight t
+  :config
+  (projectile-mode 1)
+  (setq projectile-project-search-path '("~/smithy/"))
+  (setq projectile-switch-project-action #'projectile-dired))
+
+;; (B) perspectives
+(use-package persp-mode
+  :straight t
+  :config
+  (persp-mode 1))
+
+;; (C) purpose
+;;(use-package purpose
+;;  :straight t
+;;  :config
+;;  (purpose-mode 1)
+;;  (add-to-list 'purpose-user-mode-purposes '(vterm-mode . terminal))
+;;  (add-to-list 'purpose-user-mode-purposes '(shell-mode . terminal))
+;;  (add-to-list 'purpose-user-mode-purposes '(help-mode . help))
+;;  (purpose-compile-user-configuration))
+
+;; (D) layout functions
+(defun my/layout-default ()
+  "Main editing + terminal below."
+  (delete-other-windows)
+  (split-window-below)
+  (other-window 1)
+  (vterm)
+  (other-window 1))
+
+(defun my/project-open-with-layout ()
+  (interactive)
+  (let ((proj (projectile-project-name)))
+    (persp-switch (concat "proj:" proj))
+    (projectile-switch-project)
+    (my/layout-default)))
+
+;; Keybindings
 (with-eval-after-load 'evil
-  (define-key evil-normal-state-map (kbd "SPC t") #'vterm))  ;; SPC t opens vterm
+  (define-key evil-normal-state-map (kbd "SPC p o") #'my/project-open-with-layout)
+  (define-key evil-normal-state-map (kbd "SPC p w") #'projectile-switch-project)
+  (define-key evil-normal-state-map (kbd "SPC p v") (lambda () (interactive) (vterm)))
 
-;; ---------------------------------------
-;; Docker / Compose / YAML / Makefile
-;; ---------------------------------------
-(use-package docker
-  :straight t
-  :ensure t
-  :commands docker)
+  ;; Unbind the old behavior (optional, but safer)
+  (define-key evil-normal-state-map "H" nil)
+  (define-key evil-normal-state-map "L" nil)
 
-(use-package dockerfile-mode
-  :straight t
-  :ensure t
-  :mode "Dockerfile\\'")
+  ;; Bind H / L in normal (and maybe visual / motion) states:
+  (define-key evil-normal-state-map "H" 'evil-beginning-of-line)
+  (define-key evil-normal-state-map "L" 'evil-end-of-line)
 
-(use-package docker-compose-mode
-  :straight t
-  :ensure t
-  :mode "docker-compose.*\\.ya?ml\\'")
+  (define-key evil-visual-state-map "H" 'evil-beginning-of-line)
+  (define-key evil-visual-state-map "L" 'evil-end-of-line)
+  
+  (define-key evil-motion-state-map "H" 'evil-beginning-of-line)
+  (define-key evil-motion-state-map "L" 'evil-end-of-line))
 
-(use-package yaml-mode
-  :straight t
-  :ensure t
-  :mode "\\.ya?ml\\'")
-(add-hook 'makefile-mode-hook (lambda () (setq indent-tabs-mode t))) ; Keep real TABs
-
-;; ---------------------------------------
-;; Ruff via uvx helpers (your requested commands)
-;; ---------------------------------------
-(defun my/project-root ()
-  "Return current project root or `default-directory`."
-  (or (when-let* ((proj (project-current)))
-        (car (project-roots proj)))
-      default-directory))
-
-(defun my/uvx-run (args &optional use-project-root)
-  "Run `uvx ARGS` via `compile`. If USE-PROJECT-ROOT, run from project root."
-  (let* ((default-directory (if use-project-root (my/project-root) default-directory))
-         (cmd (concat "uvx " args)))
-    (compile cmd)))
-
-(defun my/ruff-format-buffer ()
-  "Format current file with `uvx ruff format`."
-  (interactive)
-  (unless buffer-file-name (user-error "Current buffer is not visiting a file"))
-  (save-buffer)
-  (my/uvx-run (format "ruff format %s" (shell-quote-argument buffer-file-name))))
-
-(defun my/ruff-format-project ()
-  "Format project with `uvx ruff format .`."
-  (interactive)
-  (my/uvx-run "ruff format ." t))
-
-(defun my/ruff-fix-project ()
-  "Auto-fix project with `uvx ruff check --fix .`."
-  (interactive)
-  (my/uvx-run "ruff check --fix ." t))
-
-(global-set-key (kbd "C-c r b") #'my/ruff-format-buffer)
-(global-set-key (kbd "C-c r f") #'my/ruff-format-project)
-(global-set-key (kbd "C-c r x") #'my/ruff-fix-project)
-
-;; ---------------------------------------
-;; Quality-of-life
-;; ---------------------------------------
-;; Recent files
-(recentf-mode 1)
-(setq recentf-max-saved-items 500)
-
-;; Save desktop/session
-(desktop-save-mode 1)
-
-;; Slightly smoother scrolling
-(setq scroll-margin 6
-      scroll-conservatively 101)
+(with-eval-after-load 'lsp-mode
+  (define-key evil-normal-state-map (kbd "gd") #'lsp-find-definition)
+  (define-key evil-normal-state-map (kbd "gD") #'lsp-find-declaration)
+  (define-key evil-normal-state-map (kbd "gr") #'lsp-find-references)
+  (define-key evil-normal-state-map (kbd "gi") #'lsp-find-implementation)
+  (define-key evil-normal-state-map (kbd "K")  #'lsp-ui-doc-glance))
 
 (provide 'init)
 ;;; init.el ends here
