@@ -2,7 +2,7 @@
   nixpkgs.overlays = [
     (final: prev: {
       neovim = prev.neovim.override {
-        version = "0.10.4";
+        version = "0.11.4";
       };
     })
   ];
