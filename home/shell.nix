@@ -39,6 +39,12 @@
     l = "ls -l";
     ll = "ls -lha";
 
+    ipython = "uvx --with polars --with pyarrow --with matplotlib --with seaborn --with scikit-learn --with gcsfs ipython";
+    scratchpad = "uv run --with jupyter-core --with polars --with pyarrow --with gcsfs --with seaborn --with scikit-learn --with catboost jupyter notebook --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.notebook_dir=~/scratchpad";
+    notebook = "uv run --with jupyter-core --with polars --with pyarrow --with gcsfs --with seaborn --with scikit-learn --with catboost jupyter notebook --NotebookApp.token='' --NotebookApp.password=''";
+    nb2md = "uvx --with jupyter-core jupyter nbconvert --to markdown --no-input";
+    nb2html = "uvx --with jupyter-core jupyter nbconvert --to html --no-input";
+
     day = "date +%A";
     dow = "date +%u";
     week = "date +%V";

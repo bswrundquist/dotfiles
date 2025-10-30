@@ -60,8 +60,6 @@
     # `brew install`
     # TODO Feel free to add your favorite apps here.
     brews = [
-	    "ansible"
-	    "asciidoctor"
 	    "docker-credential-helper"
 	    "fd"
 	    "hashicorp/tap/packer"
@@ -71,7 +69,6 @@
 	    "telnet"
 	    "tfenv"
 	    "zoxide"
-	    # "neovim" # Now using Nix version
       "ffmpeg"
       "imagemagick"
       "lazygit"
@@ -93,8 +90,6 @@
 	    "font-fira-code"
 	    "font-hack-nerd-font"  # Required for sketchybar
 	    "ghostty"
-	    "gimp"
-	    # "google-cloud-sdk"
 	    "gcloud-cli"
       "karabiner-elements"
 	    "keepingyouawake"
