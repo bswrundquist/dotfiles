@@ -1,0 +1,2 @@
+- Nix flake is broken and cannot find binaries that are installed by home manager. Need to fix PATH but nothing is working
+- Use make switch to rebuild nix 
