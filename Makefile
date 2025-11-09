@@ -77,3 +77,19 @@ check-host: check-nix
 # make check-host          # Check if current hostname is in flake.nix
 
 
+########################################
+# Bash functions: test, lint, format  #
+########################################
+
+.PHONY: test-bash
+test-bash:
+	@nix run nixpkgs#bats -- -r tests/bash
+
+.PHONY: lint-bash
+lint-bash:
+	@nix run nixpkgs#shellcheck -- config/bash/aliases.sh || true
+
+.PHONY: fmt-bash
+fmt-bash:
+	@nix run nixpkgs#shfmt -- -w config/bash/aliases.sh
+

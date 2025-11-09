@@ -1,6 +1,8 @@
 { pkgs, config, ... }: {
   # Install our custom Bash git helper file into ~/.config/bash
   xdg.configFile."bash/git-functions.bash".source = ../config/git-functions.bash;
+  # Install single aliases/functions file
+  xdg.configFile."bash/aliases.sh".source = ../config/bash/aliases.sh;
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -165,6 +167,13 @@ eval "$(direnv hook zsh)"
         . "$XDG_CONFIG_HOME/bash/git-functions.bash"
       elif [ -f "$HOME/.config/bash/git-functions.bash" ]; then
         . "$HOME/.config/bash/git-functions.bash"
+      fi
+
+      # Source consolidated aliases/functions file
+      if [ -f "$XDG_CONFIG_HOME/bash/aliases.sh" ]; then
+        . "$XDG_CONFIG_HOME/bash/aliases.sh"
+      elif [ -f "$HOME/.config/bash/aliases.sh" ]; then
+        . "$HOME/.config/bash/aliases.sh"
       fi
 
       # Ensure our worktree functions override plugin aliases every prompt

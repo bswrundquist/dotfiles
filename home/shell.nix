@@ -1,78 +1,10 @@
 {pkgs, config, ... }: {
-  home.shellAliases = {
-    cds = "cd ~/smithy";
-    cdf = "cd ~/smithy/forge";
-    cdd = "cd ~/smithy/dotfiles";
-    cdh = "cd ~/smithy/homepage";
-    cdn = "cd ~/smithy/notebooks";
-    cdtr = "cd ~/smithy/template_repository";
-    cddl = "cd ~/Downloads";
-    cddo = "cd ~/Documents";
-
-    todos = "rg \"TODO|FIXME|HACK\"";
-
-    d = "docker";
-    dc = "docker-compose";
-    m = "make";
-    v = "nvim";
-    lg = "lazygit";
-
-    g = "git";
-    gs = "git status";
-
-    gcs = "gcloud storage";
-
-    h = "history";
-    hg = "history | rg";
-
-    k = "kubectl";
-    kgpo = "kubectl get pod";
-    kdpo = "kubectl describe pod";
-    kgs = "kubectl get svc";
-    kds = "kubectl describe svc";
-    kgn = "kubectl get nodes";
-    kdn = "kubectl describe nodes";
-    kctx = "kubctx";
-    kns = "kubens";
-    kpf = "kubectl port-forward";
-
-    l = "ls -l";
-    ll = "ls -lha";
-
-    ipython = "uvx --with polars --with pyarrow --with matplotlib --with seaborn --with scikit-learn --with gcsfs ipython";
-    scratchpad = "uv run --with jupyter-core --with polars --with pyarrow --with gcsfs --with seaborn --with scikit-learn --with catboost jupyter notebook --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.notebook_dir=~/scratchpad";
-    notebook = "uv run --with jupyter-core --with polars --with pyarrow --with gcsfs --with seaborn --with scikit-learn --with catboost jupyter notebook --NotebookApp.token='' --NotebookApp.password=''";
-    nb2md = "uvx --with jupyter-core jupyter nbconvert --to markdown --no-input";
-    nb2html = "uvx --with jupyter-core jupyter nbconvert --to html --no-input";
-
-    day = "date +%A";
-    dow = "date +%u";
-    week = "date +%V";
-    month = "date +%B";
-    date = "date +'%Y-%m-%d %H:%M:%S'";
-    time = "date +'%H:%M:%S'";
-
-    tls = "tmux ls";
-    tn = "tmux new -s";
-    ta = "tmux attach -t";
-    tk = "tmux kill-session -t";
-    ts = "tmux new -s smithy || tmux attach -t smithy";
-    tnb = "tmux new -s notebook -c ~/.notebook || tmux attach -t notebook";
-
-    nn = "nvim ~/.notebook/notes.md";
-    nt = "nvim ~/.notebook/tasks.md";
-    nr = "nvim ~/.notebook/rolodex.md";
-    na = "nvim ~/.notebook/admin.md";
-
-    ss = "sesh connect $(sesh list | fzf)";
-
-    ".." = "cd ..";
-    "..." = "cd ../..";
-    "...." = "cd ../../..";
-    "....." = "cd ../../../..";
-    "-" = "cd -";
-
-    urldecode = "python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.stdin.read()))'";
-    urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
+  # export common ignore args so they can be reused by rg, fzf, rsync
+  home.sessionVariables = {
+    RG_IGNORE_GLOBS = "--glob '!node_modules/**' --glob '!venv/**' --glob '!.venv/**' --glob '!env/**' --glob '!__pycache__/**' --glob '!dist/**' --glob '!build/**'";
+    RSYNC_EXCLUDES = "--exclude=node_modules --exclude=venv --exclude=.venv --exclude=env --exclude=__pycache__ --exclude=dist --exclude=build";
+    FZF_DEFAULT_COMMAND = "rg --files --hidden --follow \$RG_IGNORE_GLOBS";
+    FZF_DEFAULT_OPTS = "--height=40% --layout=reverse --border --preview 'bat --style=numbers --color=always --line-range :200 {}' --preview-window=right:60%:wrap";
   };
+
 }
