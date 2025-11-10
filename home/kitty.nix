@@ -1,8 +1,10 @@
-{...}: {
+{pkgs, ...}: {
   xdg.configFile."kitty/kitty.conf".text = ''
 # terminal opacity and blur
 background_opacity 1.0
 background_blur 1
+
+shell ${pkgs.zsh}/bin/zsh
 
 # advance 
 term xterm-kitty

@@ -1,7 +1,8 @@
 { config, pkgs, ... }: {
   xdg.configFile."ghostty/config" = {
     text = ''
-
+      shell-integration = zsh
+      command = ${pkgs.zsh}/bin/zsh
     '';
     executable = true;
   };

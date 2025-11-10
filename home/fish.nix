@@ -2,7 +2,7 @@
 {...}: {
   programs.fish = {
     # disabled due to some issue with needing opengl version 3.3
-    enable = true;
+    enable = false;
     # plugins = [
     #   {
     #     name = "fisher";
