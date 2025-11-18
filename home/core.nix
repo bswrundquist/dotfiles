@@ -40,8 +40,6 @@
     fzf # A command-line fuzzy finder
     
     # ensure these are available early in PATH
-    fish
-
     aria2 # A lightweight multi-protocol & multi-source command-line download utility
     socat # replacement of openbsd-netcat
     nmap # A utility for network discovery and security auditing

@@ -6,6 +6,9 @@ HOST ?= $(CURRENT_HOST)
 
 # Check for Nix installation
 NIX := $(shell command -v nix 2>/dev/null || echo "/nix/var/nix/profiles/default/bin/nix")
+NIX_FLAGS := --extra-experimental-features 'nix-command flakes'
+HM_PROFILE := $(HOME)/.local/state/nix/profiles/home-manager
+HOME_MANAGER := $(NIX) $(NIX_FLAGS) run home-manager/master --
 
 .PHONY: check-nix
 check-nix:
@@ -17,7 +20,7 @@ check-nix:
 
 .PHONY: switch
 switch: check-nix
-	$(NIX) --extra-experimental-features 'nix-command flakes' \
+	$(NIX) $(NIX_FLAGS) \
 		run nix-darwin -- switch \
 	    --flake .#$(HOST)
 	# TODO: Make Nix do this
@@ -75,6 +78,51 @@ check-host: check-nix
 # make current-host        # Show current hostname
 # make host-info           # Show configuration details for current or specified host
 # make check-host          # Check if current hostname is in flake.nix
+
+########################################
+# Nix maintenance helpers              #
+########################################
+
+.PHONY: flake-check
+flake-check: check-nix
+	@echo "🔍 Running nix flake check..."
+	@$(NIX) $(NIX_FLAGS) flake check
+
+.PHONY: profile-list
+profile-list: check-nix
+	@echo "📦 Packages in $(HM_PROFILE):"
+	@$(NIX) profile list --profile $(HM_PROFILE) || true
+
+.PHONY: profile-history
+profile-history: check-nix
+	@echo "🕓 Profile history for $(HM_PROFILE):"
+	@$(NIX) profile history --profile $(HM_PROFILE) || true
+
+.PHONY: hm-generations
+hm-generations: check-nix
+	@echo "🏠 Home Manager generations:"
+	@$(HOME_MANAGER) generations
+
+.PHONY: hm-expire
+hm-expire: check-nix
+	@echo "🧼 Expiring Home Manager generations older than 7 days..."
+	@$(HOME_MANAGER) expire-generations --older-than 7d
+
+.PHONY: darwin-generations
+darwin-generations: check-nix
+	@echo "🖥️ nix-darwin generations:"
+	@$(NIX) $(NIX_FLAGS) run nix-darwin -- --list-generations
+
+.PHONY: gc
+gc: check-nix
+	@echo "🧹 Running nix store GC for reachable paths..."
+	@$(NIX) store gc
+
+.PHONY: gc-aggressive
+gc-aggressive: check-nix
+	@echo "🧹 Running aggressive GC and wiping profile history..."
+	@$(NIX) store gc --debug
+	@$(NIX) profile wipe-history --profile $(HM_PROFILE) || true
 
 
 ########################################

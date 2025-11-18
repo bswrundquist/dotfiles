@@ -101,7 +101,6 @@
 	    "slack"
 	    "tailscale-app"
 	    "utm"
-      "quarto"
       "qutebrowser"
       # "google-chrome"
       "visual-studio-code"

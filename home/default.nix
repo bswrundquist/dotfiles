@@ -5,7 +5,6 @@
     ./aerospace.nix
     ./core.nix
     ./emacs.nix
-    ./fish.nix
     ./git.nix
     ./ghostty.nix
     ./haskell.nix
