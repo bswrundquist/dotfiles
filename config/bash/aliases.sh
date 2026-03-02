@@ -63,8 +63,11 @@ gcs() { gcloud storage "$@"; }
 
 unalias gca 2>/dev/null || true
 gca() {
-  gcloud auth login "$@" || return
-  gcloud auth application-default login "$@"
+  gcloud auth login || return
+  gcloud auth application-default login || return
+  if [ -n "$1" ]; then
+    gcloud config set project "$1"
+  fi
 }
 
 unalias h 2>/dev/null || true

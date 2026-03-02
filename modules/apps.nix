@@ -94,7 +94,6 @@
       "karabiner-elements"
 	    "keepingyouawake"
 	    "kitty"
-	    "nikitabobko/tap/aerospace"
 	    "obsidian"
 	    "pantsbuild/tap/pants"
 	    "raycast"
@@ -104,7 +103,6 @@
       "qutebrowser"
       # "google-chrome"
       "visual-studio-code"
-      "windsurf"
     ];
     masApps = {
 

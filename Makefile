@@ -1,5 +1,5 @@
 # Detect current hostname (lowercase and trimmed)
-CURRENT_HOST := $(shell hostname | tr '[:upper:]' '[:lower:]' | tr -d '\n')
+CURRENT_HOST := $(shell hostname | tr '[:upper:]' '[:lower:]' | tr -d '\n' | sed 's/\.local$$//')
 
 # Default host is the current hostname
 HOST ?= $(CURRENT_HOST)
@@ -8,7 +8,7 @@ HOST ?= $(CURRENT_HOST)
 NIX := $(shell command -v nix 2>/dev/null || echo "/nix/var/nix/profiles/default/bin/nix")
 NIX_FLAGS := --extra-experimental-features 'nix-command flakes'
 HM_PROFILE := $(HOME)/.local/state/nix/profiles/home-manager
-HOME_MANAGER := $(NIX) $(NIX_FLAGS) run home-manager/master --
+HOME_MANAGER := $(NIX) $(NIX_FLAGS) run home-manager/release-25.05 --
 
 .PHONY: check-nix
 check-nix:
@@ -20,7 +20,7 @@ check-nix:
 
 .PHONY: switch
 switch: check-nix
-	$(NIX) $(NIX_FLAGS) \
+	sudo $(NIX) $(NIX_FLAGS) \
 		run nix-darwin -- switch \
 	    --flake .#$(HOST)
 	# TODO: Make Nix do this
