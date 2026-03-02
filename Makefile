@@ -126,6 +126,20 @@ gc-aggressive: check-nix
 
 
 ########################################
+# Bootstrap / Install                  #
+########################################
+
+.PHONY: install-nix
+install-nix:
+	@if command -v nix >/dev/null 2>&1; then \
+		echo "Nix is already installed"; \
+		exit 0; \
+	fi
+	@echo "Installing Nix (official multi-user installer)..."
+	@echo "NOTE: Do NOT use the Determinate Systems installer — it causes permission issues with nix-darwin."
+	sh <(curl -L https://nixos.org/nix/install)
+
+########################################
 # Bash functions: test, lint, format  #
 ########################################
 
