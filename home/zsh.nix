@@ -223,15 +223,6 @@ eval "$(direnv hook zsh)"
     #  };
     #}
     {
-      name = "jq-zsh-plugin";
-      src = pkgs.fetchFromGitHub {
-        owner = "reegnz";
-        repo = "jq-zsh-plugin";
-        rev = "master";
-        sha256 = "XYDIDThQbnr9O9cOIFPz9qqSFjxovcCqb4j6LFVlL5w=";
-      };
-    }
-    {
       name = "forgit";
       src = pkgs.fetchFromGitHub {
         owner = "wfxr";
