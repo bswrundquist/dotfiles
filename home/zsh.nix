@@ -227,8 +227,8 @@ eval "$(direnv hook zsh)"
       src = pkgs.fetchFromGitHub {
         owner = "wfxr";
         repo = "forgit";
-        rev = "master";
-        sha256 = "GxX7oLhF3+EZiiOJS2anEZcux8TeboQ3cBB8jato4bM=";
+        # rev = "master";
+        sha256 = null
       };
     }
   ];
