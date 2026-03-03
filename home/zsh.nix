@@ -228,7 +228,7 @@ eval "$(direnv hook zsh)"
         owner = "wfxr";
         repo = "forgit";
         # rev = "master";
-        sha256 = null
+        sha256 = null;
       };
     }
   ];
