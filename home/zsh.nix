@@ -206,11 +206,9 @@ eval "$(direnv hook zsh)"
     }
     {
       name = "fzf-tab";
-      src = pkgs.fetchFromGitHub {
-        owner = "Aloxaf";
-        repo = "fzf-tab";
-        rev = "master";
-        sha256 = "q26XVS/LcyZPRqDNwKKA9exgBByE0muyuNb0Bbar2lY=";
+      src = builtins.fetchGit {
+        url = "https://github.com/Aloxaf/fzf-tab";
+        rev = "0fbd5753f935dcb6899e5fb2a0fb9a3fd69f1ce0";
       };
     }
     #{
@@ -224,11 +222,9 @@ eval "$(direnv hook zsh)"
     #}
     {
       name = "forgit";
-      src = pkgs.fetchFromGitHub {
-        owner = "wfxr";
-        repo = "forgit";
-        # rev = "master";
-        sha256 = null;
+      src = builtins.fetchGit {
+        url = "https://github.com/wfxr/forgit";
+        rev = "53da496336305b8896e9cc2c8c5fbb016f31847c";
       };
     }
   ];
