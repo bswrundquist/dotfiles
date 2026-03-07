@@ -176,6 +176,15 @@ eval "$(direnv hook zsh)"
         . "$HOME/.config/bash/aliases.sh"
       fi
 
+      # Source all work-specific configs (~/.config/work/*.sh)
+      # Not managed by Nix — drop files here for job-specific aliases, env vars, functions
+      local work_dir="''${XDG_CONFIG_HOME:-$HOME/.config}/work"
+      if [ -d "$work_dir" ]; then
+        for f in "$work_dir"/*.sh(N); do
+          . "$f"
+        done
+      fi
+
       # Ensure our worktree functions override plugin aliases every prompt
       autoload -Uz add-zsh-hook
       fix_git_worktree_aliases() {
@@ -191,6 +200,36 @@ eval "$(direnv hook zsh)"
         alias 'gwt-temp'=gwt_temp
       }
       add-zsh-hook -Uz precmd fix_git_worktree_aliases
+
+      # Kill process(es) listening on a given port
+      port-stop() {
+        if [[ -z "$1" ]]; then
+          echo "Usage: port-stop <port>"
+          return 1
+        fi
+        local port="$1"
+        if ! [[ "$port" =~ '^[0-9]+$' ]] || (( port < 1 || port > 65535 )); then
+          echo "Error: Invalid port number '$port'. Must be 1-65535."
+          return 1
+        fi
+        local pids
+        pids=$(lsof -ti:"$port" 2>/dev/null)
+        if [[ -z "$pids" ]]; then
+          echo "No processes found listening on port $port."
+          return 0
+        fi
+        echo "Processes on port $port:"
+        lsof -i:"$port"
+        echo ""
+        echo -n "Kill these processes? [y/N] "
+        read -r confirm
+        if [[ "$confirm" =~ '^[yY]$' ]]; then
+          echo "$pids" | xargs kill
+          echo "Sent SIGTERM to PID(s): $(echo $pids | tr '\n' ' ')"
+        else
+          echo "Aborted."
+        fi
+      }
 
     '';
   plugins = [
