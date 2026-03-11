@@ -4,6 +4,7 @@
   imports = [
     ./core.nix
     ./emacs.nix
+    ./go.nix
     ./git.nix
     ./ghostty.nix
     ./haskell.nix
