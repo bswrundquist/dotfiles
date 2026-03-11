@@ -102,6 +102,8 @@
       "qutebrowser"
       # "google-chrome"
       "visual-studio-code"
+      "vagrant"
+      "virtualbox"
     ];
     masApps = {
 
