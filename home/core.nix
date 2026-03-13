@@ -56,6 +56,7 @@
     zstd
     caddy
     gnupg
+    gopass
 
     # productivity
     glow # markdown previewer in terminal
