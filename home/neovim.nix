@@ -10,6 +10,7 @@
   # Install Neovim 10.4
   home.packages = with pkgs; [
     neovim
+    tree-sitter
   ];
 
   # Link the Neovim configuration directory
