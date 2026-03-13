@@ -4,6 +4,7 @@
       shell-integration = zsh
       command = ${pkgs.zsh}/bin/zsh
       clipboard-paste-protection = false
+      macos-secure-input-indication = false
     '';
     executable = true;
   };
