@@ -3,6 +3,7 @@
     text = ''
       shell-integration = zsh
       command = ${pkgs.zsh}/bin/zsh
+      clipboard-paste-protection = false
     '';
     executable = true;
   };
