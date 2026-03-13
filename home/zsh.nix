@@ -161,6 +161,7 @@ tcap() {
   fi
 }
 eval "$(direnv hook zsh)"
+eval "$(op signin)"
 
       # Source user git helpers (Bash script) if present
       if [ -f "$XDG_CONFIG_HOME/bash/git-functions.bash" ]; then
