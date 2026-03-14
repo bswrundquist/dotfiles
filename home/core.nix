@@ -17,6 +17,9 @@
     babashka
     clj-kondo
 
+    awscli2
+    aws-vault
+
     kubectx
     k9s
     kubectl-tree
