@@ -12,7 +12,7 @@ return {
   -- { import = "astrocommunity.motion.flash-nvim" },
   -- { import = "astrocommunity.motion.terraform" },
   -- { import = "astrocommunity.completion.copilot-cmp" },
-  { import = "astrocommunity.completion.copilot-lua-cmp" },
+  -- { import = "astrocommunity.completion.copilot-lua" },
   { import = "astrocommunity.pack.html-css" },
   -- { import = "astrocommunity.pack.lua" },
   -- { import = "astrocommunity.pack.quarto" },
