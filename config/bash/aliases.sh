@@ -12,23 +12,23 @@ alias .....='cd ../../../..'
 alias -- -='cd -'
 
 # --- navigation ---
-unalias cds 2>/dev/null || true
-cds() { cd "$HOME/smithy" || return; }
+unalias cdw 2>/dev/null || true
+cdw() { cd "$HOME/workspace" || return; }
 
 unalias cdf 2>/dev/null || true
-cdf() { cd "$HOME/smithy/forge" || return; }
+cdf() { cd "$HOME/workspace/forge" || return; }
 
 unalias cdd 2>/dev/null || true
-cdd() { cd "$HOME/smithy/dotfiles" || return; }
+cdd() { cd "$HOME/workspace/dotfiles" || return; }
 
 unalias cdh 2>/dev/null || true
-cdh() { cd "$HOME/smithy/homepage" || return; }
+cdh() { cd "$HOME/workspace/homepage" || return; }
 
 unalias cdn 2>/dev/null || true
-cdn() { cd "$HOME/smithy/notebooks" || return; }
+cdn() { cd "$HOME/workspace/notebooks" || return; }
 
 unalias cdtr 2>/dev/null || true
-cdtr() { cd "$HOME/smithy/template_repository" || return; }
+cdtr() { cd "$HOME/workspace/template_repository" || return; }
 
 unalias cddl 2>/dev/null || true
 cddl() { cd "$HOME/Downloads" || return; }
@@ -164,7 +164,7 @@ unalias tk 2>/dev/null || true
 tk() { tmux kill-session -t "$@"; }
 
 unalias ts 2>/dev/null || true
-ts() { tmux new -s smithy || tmux attach -t smithy; }
+ts() { tmux new -s workspace || tmux attach -t workspace; }
 
 unalias tnb 2>/dev/null || true
 tnb() { tmux new -s notebook -c "$HOME/.notebook" || tmux attach -t notebook; }

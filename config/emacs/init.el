@@ -196,7 +196,7 @@
   :straight t
   :config
   (projectile-mode 1)
-  (setq projectile-project-search-path '("~/smithy/"))
+  (setq projectile-project-search-path '("~/workspace/"))
   (setq projectile-switch-project-action #'projectile-dired))
 
 ;; (B) perspectives
