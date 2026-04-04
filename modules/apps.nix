@@ -68,6 +68,7 @@
 	    "telnet"
 	    "tfenv"
 	    "zoxide"
+      "kingfisher"
       "ffmpeg"
       "imagemagick"
       "lazygit"

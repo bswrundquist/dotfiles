@@ -48,6 +48,10 @@
     socat # replacement of openbsd-netcat
     nmap # A utility for network discovery and security auditing
 
+    # security
+    gitleaks
+    trufflehog
+
     # misc
     cowsay
     file
